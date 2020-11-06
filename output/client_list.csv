@@ -1,0 +1,32 @@
+client,Group,Facility
+BFCMC,BHS,Banner Fort Collins Medical Center
+CFG,CFG,Centers for Gastroenterology
+CPMC,CPMC,Colorado Plains Medical Center
+CRMC,CRMC,Cheyenne Regional Medical Center
+EMCH,BHS,East Morgan County Hospital
+EPMC,EPMC,Estes Park Health Hospital
+FR DERM,TECH_ONLY,Front Range Dermatology
+GRANDVIEW,UC_SOUTH,Grandview Hospital
+HS,HS,Melissa Memorial Hospital
+IMH,IMH,Ivinson Memorial Hospital
+JL DERM,TECH_ONLY,Colorado Derm Group
+KHS,KHS,Kimball County Hospital
+McKee,BHS,McKee Medical Center
+MCR,UC_NORTH,Medical Center of the Rockies
+MH,OP_MEM,Outpatient Memorial Hospital
+MHC,UC_SOUTH,Memorial Central
+MHCC DC,MHCC_DC,Memorial Hospital of Converse County
+MHN,UC_SOUTH,Memorial North
+NCMC,BHS,North Colorado Medical Center
+OCH,BHS,Ogallala Community Hospital
+PCMH,BHS,Platte County Memorial Hospital
+PEAK,OP_SP,Peak Gastroenterology
+PVH,UC_NORTH,Poudre Valley Hospital
+RAWLINS,RWLNS,Memorial Hospital of Carbon County 
+SP,OP_SP,Outpatient Summit Pathology
+SPWY,OP_SP,Outpatient Summit Pathology
+SRMC,BHS,Sterling Regional Medical Center
+TORRINGTON,BHS,Torrington Community Hospital
+UCHGH,UC_NORTH,UC Health Greeley Hospital
+WOODLAND,UC_SOUTH,Woodland 
+WY VA,WYVA,Veterans Administration

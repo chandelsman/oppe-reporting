@@ -1,0 +1,204 @@
+# internal consults
+
+
+# Load internal consult data ----------------------------------------------
+
+consult_int <- read_excel("./input/int_q1_20.xls")
+
+
+# Clean internal consult data ---------------------------------------------
+
+consult_int <- consult_int %>% 
+  filter(Correlation != "Select") %>% # exclude if pathologist left blank
+  mutate(
+    `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
+    `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
+    `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
+    type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
+    client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"), 
+    grp = case_when(
+      `Sequence Group` == "NGYN (BFCMC)" ~ "BHS",
+      `Sequence Group` == "NGYN (CPMC)" ~ "CPMC",
+      `Sequence Group` == "NGYN (CRMC)" ~ "CRMC",
+      `Sequence Group` == "NGYN (EMCH)" ~ "BHS",
+      `Sequence Group` == "NGYN (EPMC)" ~ "EPMC",
+      `Sequence Group` == "NGYN (IMH)" ~ "IMH",
+      `Sequence Group` == "NGYN (KHS)" ~ "KHS",
+      `Sequence Group` == "NGYN (McKee)" ~ "BHS",
+      `Sequence Group` == "NGYN (MCR)" ~ "UC_NORTH",
+      `Sequence Group` == "NGYN (MHC)" ~ "UC_SOUTH",
+      `Sequence Group` == "NGYN (MHCC DC)" ~ "MHCC_DC",
+      `Sequence Group` == "NGYN (MHN)" ~ "UC_SOUTH",
+      `Sequence Group` == "NGYN (NCMC)" ~ "BHS",
+      `Sequence Group` == "NGYN (OCH)" ~ "BHS",
+      `Sequence Group` == "NGYN (PCMH)" ~ "BHS",
+      `Sequence Group` == "NGYN (PEAK)" ~ "OP_SP",
+      `Sequence Group` == "NGYN (PVH)" ~ "UC_NORTH",
+      `Sequence Group` == "NGYN (RAWLINS)" ~ "RWLNS",
+      `Sequence Group` == "NGYN (SRMC)" ~ "BHS",
+      `Sequence Group` == "NGYN (UCHGH)" ~ "UC_NORTH",
+      `Sequence Group` == "NGYN (WOODLAND)" ~ "UC_SOUTH",
+      `Sequence Group` == "NGYN (WY VA)" ~ "WYVA",
+      `Sequence Group` == "NGYN OP (MHN)" ~ "UCSOUTH",
+      `Sequence Group` == "NGYN OP (SP)" ~ "OP_SP",
+      `Sequence Group` == "NGYN OP (SPWY)" ~ "OP_SP",
+      `Sequence Group` == "SURG (BFCMC)" ~ "BHS",
+      `Sequence Group` == "SURG (CFG)" ~ "CFG",
+      `Sequence Group` == "SURG (CPMC)" ~ "CPMC",
+      `Sequence Group` == "SURG (CRMC)" ~ "CRMC",
+      `Sequence Group` == "SURG (EMCH)" ~ "BHS",
+      `Sequence Group` == "SURG (EPMC)" ~ "EPMC",
+      `Sequence Group` == "SURG (FR DERM)" ~ "TECH",
+      `Sequence Group` == "SURG (GRANDVIEW)" ~ "UC_SOUTH",
+      `Sequence Group` == "SURG (HS)" ~ "HS",
+      `Sequence Group` == "SURG (IMH)" ~ "IMH",
+      `Sequence Group` == "SURG (JL DERM)" ~ "TECH",
+      `Sequence Group` == "SURG (KHS)" ~ "KHS",
+      `Sequence Group` == "SURG (McKee)" ~ "BHS",
+      `Sequence Group` == "SURG (MCR)" ~ "UC_NORTH",
+      `Sequence Group` == "SURG (MHC)" ~ "UC_SOUTH",
+      `Sequence Group` == "SURG (MHCC DC)" ~ "MHCC_DC",
+      `Sequence Group` == "SURG (MHN)" ~ "UC_SOUTH",
+      `Sequence Group` == "SURG (NCMC)" ~ "BHS",
+      `Sequence Group` == "SURG (OCH)" ~ "BHS",
+      `Sequence Group` == "SURG (PCMH)" ~ "BHS",
+      `Sequence Group` == "SURG (PEAK)" ~ "OP_SP",
+      `Sequence Group` == "SURG (PVH)" ~ "UC_NORTH",
+      `Sequence Group` == "SURG (RAWLINS)" ~ "RWLNS",
+      `Sequence Group` == "SURG (SRMC)" ~ "BHS",
+      `Sequence Group` == "SURG (TORRINGTON)" ~ "BHS",
+      `Sequence Group` == "SURG (UCHGH)" ~ "UC_NORTH",
+      `Sequence Group` == "SURG (WOODLAND)" ~ "UC_SOUTH",
+      `Sequence Group` == "SURG (WY VA)" ~ "WYVA",
+      `Sequence Group` == "SURG OP (MH)" ~ "OP_MEM",
+      `Sequence Group` == "SURG OP (SP)" ~ "OP_SP",
+      `Sequence Group` == "SURG OP (SPWY)" ~ "OP_SP",
+      TRUE ~ "Validate_Client"),
+    cl_grp = case_when(
+      `Sequence Group` == "NGYN (BFCMC)" ~ "Banner Health",
+      `Sequence Group` == "NGYN (CPMC)" ~ "Colorado Plains Medical Center",
+      `Sequence Group` == "NGYN (CRMC)" ~ "Cheyenne Regional Medical Center",
+      `Sequence Group` == "NGYN (EMCH)" ~ "Banner Health",
+      `Sequence Group` == "NGYN (EPMC)" ~ "Estes Park Health Hospital",
+      `Sequence Group` == "NGYN (IMH)" ~ "Ivinson Memorial Hospital",
+      `Sequence Group` == "NGYN (KHS)" ~ "Kimball County Hospital",
+      `Sequence Group` == "NGYN (McKee)" ~ "Banner Health",
+      `Sequence Group` == "NGYN (MCR)" ~ "UC Health North",
+      `Sequence Group` == "NGYN (MHC)" ~ "UC Health South",
+      `Sequence Group` == "NGYN (MHCC DC)" ~ "Memorial Hospital of Converse County",
+      `Sequence Group` == "NGYN (MHN)" ~ "UC Health South",
+      `Sequence Group` == "NGYN (NCMC)" ~ "Banner Health",
+      `Sequence Group` == "NGYN (OCH)" ~ "Banner Health",
+      `Sequence Group` == "NGYN (PCMH)" ~ "Banner Health",
+      `Sequence Group` == "NGYN (PEAK)" ~ "Summit Pathology Outpatient",
+      `Sequence Group` == "NGYN (PVH)" ~ "UC Health North",
+      `Sequence Group` == "NGYN (RAWLINS)" ~ "Memorial Hospital of Carbon County",
+      `Sequence Group` == "NGYN (SRMC)" ~ "Banner Health",
+      `Sequence Group` == "NGYN (UCHGH)" ~ "UC Health North",
+      `Sequence Group` == "NGYN (WOODLAND)" ~ "UC Health South",
+      `Sequence Group` == "NGYN (WY VA)" ~ "Wyoming Veterans Administration",
+      `Sequence Group` == "NGYN OP (MHN)" ~ "Memorial Outpatient",
+      `Sequence Group` == "NGYN OP (SP)" ~ "Summit Pathology Outpatient",
+      `Sequence Group` == "NGYN OP (SPWY)" ~ "Summit Pathology Outpatient",
+      `Sequence Group` == "SURG (BFCMC)" ~ "Banner Health",
+      `Sequence Group` == "SURG (CFG)" ~ "Centers for Gastroenterology",
+      `Sequence Group` == "SURG (CPMC)" ~ "Colorado Plains Medical Center",
+      `Sequence Group` == "SURG (CRMC)" ~ "Cheyenne Regional Medical Center",
+      `Sequence Group` == "SURG (EMCH)" ~ "Banner Health",
+      `Sequence Group` == "SURG (EPMC)" ~ "Estes Park Health Hospital",
+      `Sequence Group` == "SURG (FR DERM)" ~ "Tech Only Clients",
+      `Sequence Group` == "SURG (GRANDVIEW)" ~ "UC Health South",
+      `Sequence Group` == "SURG (HS)" ~ "Melissa Memorial Hospital",
+      `Sequence Group` == "SURG (IMH)" ~ "Ivinson Memorial Hospital",
+      `Sequence Group` == "SURG (JL DERM)" ~ "Tech Only Clients",
+      `Sequence Group` == "SURG (KHS)" ~ "Kimball County Hospital",
+      `Sequence Group` == "SURG (McKee)" ~ "Banner Health",
+      `Sequence Group` == "SURG (MCR)" ~ "UC Health North",
+      `Sequence Group` == "SURG (MHC)" ~ "UC Health South",
+      `Sequence Group` == "SURG (MHCC DC)" ~ "Memorial Hospital of Converse County",
+      `Sequence Group` == "SURG (MHN)" ~ "UC Health South",
+      `Sequence Group` == "SURG (NCMC)" ~ "Banner Health",
+      `Sequence Group` == "SURG (OCH)" ~ "Banner Health",
+      `Sequence Group` == "SURG (PCMH)" ~ "Banner Health",
+      `Sequence Group` == "SURG (PEAK)" ~ "Summit Pathology Outpatient",
+      `Sequence Group` == "SURG (PVH)" ~ "UC Health North",
+      `Sequence Group` == "SURG (RAWLINS)" ~ "Memorial Hospital of Carbon County",
+      `Sequence Group` == "SURG (SRMC)" ~ "Banner Health",
+      `Sequence Group` == "SURG (TORRINGTON)" ~ "Banner Health",
+      `Sequence Group` == "SURG (UCHGH)" ~ "UC Health North",
+      `Sequence Group` == "SURG (WOODLAND)" ~ "UC Health South",
+      `Sequence Group` == "SURG (WY VA)" ~ "Wyoming Veterans Administration",
+      `Sequence Group` == "SURG OP (MH)" ~ "Memorial Outpatient",
+      `Sequence Group` == "SURG OP (SP)" ~ "Summit Pathology Outpatient",
+      `Sequence Group` == "SURG OP (SPWY)" ~ "Summit Pathology Outpatient",
+      TRUE ~ "Validate_Client")
+  )
+
+
+
+# Combine with ta_time dataset --------------------------------------------
+
+df <- consult_int %>% 
+  distinct(`Result ID`, .keep_all = TRUE) %>% 
+  select(c(`Result ID`, Correlation)) %>%
+  right_join(ta_time, by = c("Result ID" = "RESULT ID")) %>% 
+  mutate(PATHOLOGIST = str_replace(PATHOLOGIST, "\\[x] ", ""),
+         corr_factor = str_extract(Correlation, "YES"),
+         corr_logical = if_else(corr_factor == "YES", "YES", "NO", "NO")) %>% 
+  group_by(cl_grp, PATHOLOGIST) %>% 
+  summarize(reviewed = sum(corr_logical == "YES"),
+            caseload = n(),
+            percent_reviewed = reviewed / caseload) %>% 
+  ungroup()
+
+
+# Summary table -----------------------------------------------------------
+
+df %>% 
+  filter(cl_grp == "UC Health South") %>% 
+  # group_by(PATHOLOGIST) %>% 
+  select(-c(cl_grp, caseload)) %>% 
+  gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>% 
+  tab_header (title = "Internal Consulations",
+              subtitle = "") %>% 
+  fmt_number(
+    columns = vars(reviewed),
+    decimals = 0,
+    use_seps = TRUE
+  ) %>% 
+  fmt_percent(
+    columns = vars(percent_reviewed),
+    decimals = 2,
+    use_seps = TRUE
+  ) %>% 
+  cols_label(
+    reviewed = "Correlation (Yes)",
+    percent_reviewed = "% Reviewed"
+  ) %>% 
+  summary_rows(
+    columns = vars(reviewed),
+    fns = list(Overall = "sum"),
+    formatter = fmt_number,
+    decimals = 0,
+    use_seps = TRUE
+  ) %>% 
+  summary_rows(
+    columns = vars(percent_reviewed),
+    fns = list(Overall = "mean"),
+    formatter = fmt_percent,
+    decimals = 2,
+    use_seps = TRUE
+  ) %>% 
+  cols_align(
+    align = "right"
+  ) %>% 
+  tab_options(
+    # row_group.background.color = "lightgray",
+    # row_group.font.weight = "bold",
+    # column_labels.font.weight = "bold",
+    table.width = pct(50),
+    summary_row.background.color = "lightgray",
+    summary_row.padding = px(5),
+    row_group.font.weight = "bold",
+    row_group.padding = px(15)
+  ) 
