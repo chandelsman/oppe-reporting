@@ -330,7 +330,6 @@ ta_time$span <- sapply(1:nrow(ta_time), function(x) {
 ```{r tat_table_group, message = FALSE, warning = FALSE}
 
 ta_time %>%
-  filter(cl_grp == params$cl_grp) %>%
   summarize(
     Cases = n(),
     Average = mean(span),
@@ -372,7 +371,7 @@ ta_time %>%
 ```{r tat_table_group_filtered, message = FALSE, warning = FALSE}
 
 ta_time %>%
-  filter(cl_grp == params$cl_grp, !(str_detect(CPTS, "88311 | 88341"))) %>%
+  filter(!(str_detect(CPTS, "88311 | 88341"))) %>%
   summarize(
     Cases = n(),
     Average = mean(span),
@@ -420,7 +419,6 @@ ta_time %>%
 ```{r tat_table_facility, message = FALSE, warning = FALSE}
 
 case_stats <-  ta_time %>%
-  filter(cl_grp == params$cl_grp) %>%
   group_by(client, type) %>%
   summarize(
     Cases = n(),
@@ -429,7 +427,6 @@ case_stats <-  ta_time %>%
   )
 
 group_stats <- ta_time %>%
-  filter(cl_grp == params$cl_grp) %>%
   group_by(client) %>%
   summarize(
     type = "Summary",
@@ -476,7 +473,7 @@ case_stats %>% bind_rows(group_stats) %>%
 ```{r tat_table_facility_filtered, message = FALSE, warning = FALSE}
 
 case_stats <-  ta_time %>%
-  filter(cl_grp == params$cl_grp, !(str_detect(CPTS, "88311 | 88341"))) %>%
+  filter(!(str_detect(CPTS, "88311 | 88341"))) %>%
   group_by(client, type) %>%
   summarize(
     Cases = n(),
@@ -485,7 +482,7 @@ case_stats <-  ta_time %>%
   )
 
 group_stats <- ta_time %>%
-  filter(cl_grp == params$cl_grp, !(str_detect(CPTS, "88311 | 88341"))) %>%
+  filter(!(str_detect(CPTS, "88311 | 88341"))) %>%
   group_by(client) %>%
   summarize(
     type = "Summary",
@@ -539,7 +536,6 @@ case_stats %>% bind_rows(group_stats) %>%
 ```{r tat_table_pathologist, message = FALSE, warning = FALSE}
 
 ta_time %>%
-  filter(cl_grp == params$cl_grp) %>%
   group_by(PATHOLOGIST) %>%
   summarize(
     Cases = n(),
@@ -761,7 +757,6 @@ team_stats <- consult_int %>%
 
 # make internal consultation table
 path_stats %>% bind_rows(team_stats) %>%
-  filter(cl_grp == params$cl_grp) %>%
   select(-c(cl_grp, caseload)) %>%
   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
   tab_header(title = "",
@@ -939,7 +934,7 @@ consult_ext <- consult_ext %>%
 # pathologist summary
 path_ext <- 
   consult_ext %>%
-  filter(!is.na(Correlation), cl_grp == params$cl_grp) %>%
+  filter(!is.na(Correlation)) %>%
   group_by(`Primary Pathologist`) %>%
   summarize(
     No = sum(Correlation == "NO"),
@@ -951,7 +946,7 @@ path_ext <-
 # team summary
 team_ext <- 
   consult_ext %>%
-  filter(!is.na(Correlation), cl_grp == params$cl_grp) %>% 
+  filter(!is.na(Correlation)) %>% 
   summarize(
     `Primary Pathologist` = "Summary",
     No = sum(Correlation == "NO"),
@@ -1133,7 +1128,7 @@ consult_iop <- consult_iop %>%
 # summarize intraop consults by type
 type_iop <- 
   consult_iop %>%
-  filter(!is.na(Correlation), cl_grp == params$cl_grp) %>%
+  filter(!is.na(Correlation)) %>%
   group_by(`IntraOp Type`) %>%
   summarize(
     No = sum(Correlation == "NO"),
@@ -1145,7 +1140,7 @@ type_iop <-
 # calculate totals for all intraop consults  
 sum_iop <- 
   consult_iop %>%
-  filter(!is.na(Correlation), cl_grp == params$cl_grp) %>%
+  filter(!is.na(Correlation)) %>%
   summarize(
     `IntraOp Type` = "Summary",
     No = sum(Correlation == "NO"),
@@ -1185,7 +1180,7 @@ type_iop %>% bind_rows(sum_iop) %>%
 # summarize intraop conslults by pathologist and type
 path_iop <- 
   consult_iop %>%
-  filter(!is.na(Correlation), cl_grp == params$cl_grp) %>%
+  filter(!is.na(Correlation)) %>%
   group_by(`IntraOp Path`, `IntraOp Type`) %>%
   summarize(
     No = sum(Correlation == "NO"),
@@ -1197,7 +1192,7 @@ path_iop <-
 # calculate intraop consult summaries by pathologist
 path_sum_iop <- 
   consult_iop %>%
-  filter(!is.na(Correlation), cl_grp == params$cl_grp) %>%
+  filter(!is.na(Correlation)) %>%
   group_by(`IntraOp Path`) %>%
   summarize(
     `IntraOp Type` = "Summary",
