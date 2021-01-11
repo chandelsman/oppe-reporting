@@ -33,6 +33,16 @@ params:
     input: select
     label: Year
     value: 2020
+  dt_start:
+    label: "Start Date"
+    input: date
+    value: !r Sys.Date()-90
+    max: !r Sys.Date()
+  dt_end: 
+    label: "End Date"
+    input: date
+    value: !r Sys.Date()-1
+    max: !r Sys.Date()
 editor_options:
   chunk_output_type: console
 ---
@@ -51,6 +61,7 @@ knitr::opts_knit$set(root.dir = "..")
 # client by case type (NGYN, surgical), and by pathologist.
 
 library(tidyverse)
+library(here)
 library(readxl)
 library(lubridate)
 library(timeDate)
@@ -60,34 +71,59 @@ library(gt)
 
 ```{r load_data, message = FALSE, warning = FALSE}
 
-# VERIFY FILE NAMES BEFORE RUNNING!
-
 # turn around time data ---------------------------------------------------
-ta_time_raw <- readxl::read_excel(
-  "./data/2020q3-tat.xlsx",
-  col_types =
-    c(
-      "guess",
-      "guess",
-      "guess",
-      "guess",
-      "text",
-      "guess",
-      "guess",
-      "guess",
-      "guess"
-    )
-)
+ta_time_raw <- 
+  list.files(
+    path = here("data"),
+    pattern = "(\\d){4}\\D\\d\\.\\d-tat\\.xls",
+    full.names = TRUE
+  ) %>% 
+  sapply(read_excel, 
+         simplify = FALSE,
+         col_types =
+           c(
+             "guess",
+             "guess",
+             "guess",
+             "numeric",
+             "text",
+             "guess",
+             "guess",
+             "guess",
+             "guess",
+             "guess",
+             "guess",
+             "guess"
+           )
+  ) %>% 
+  bind_rows()
 
 # internal consultation data ----------------------------------------------
-consult_int <- read_excel("./data/2020q3-int.xls")
+consult_int <- 
+  list.files(path = here("data"),
+             pattern = "(\\d){4}\\D\\d-int\\.xls",
+             full.names = TRUE 
+  ) %>% 
+  sapply(read_excel, simplify = FALSE) %>% 
+  bind_rows()
 
 # external consultation data ----------------------------------------------
-consult_ext <- read_excel("./data/2020q3-ext.xls")
+consult_ext <- 
+  list.files(path = here("data"),
+             pattern = "(\\d){4}\\D\\d-ext\\.xls",
+             full.names = TRUE 
+  ) %>% 
+  sapply(read_excel, simplify = FALSE) %>% 
+  bind_rows()
 
 # intraoperative consultation data ----------------------------------------
-consult_iop <- read_excel("./data/2020q3-iop.xls")
-
+consult_iop <- 
+  list.files(path = here("data"),
+             pattern = "(\\d){4}\\D\\d-iop\\.xls",
+             full.names = TRUE 
+  ) %>% 
+  sapply(read_excel, simplify = FALSE) %>% 
+  bind_rows()
 ```
 
 ```{r turnaround time, message = FALSE, warning = FALSE}
@@ -233,8 +269,9 @@ ta_time <- ta_time_raw %>%
       TRUE ~ "Validate_Client"
     )
   ) %>%
-  # remove delected records and select client
   filter(!is.na(`original release`), 
+         as_date(Create) >= params$dt_start &
+           as_date(Create) <= params$dt_end,
          cl_grp == params$cl_grp,
          !is.na(PATHOLOGIST)) # drop deleted records
 ```
@@ -284,7 +321,6 @@ ta_time$span <- sapply(1:nrow(ta_time), function(x) {
 ```{r tat_table_group, message = FALSE, warning = FALSE}
 
 ta_time %>%
-  filter(cl_grp == params$cl_grp) %>%
   summarize(
     Cases = n(),
     Average = mean(span),
