@@ -1,0 +1,68 @@
+Collected date,Result ID,Primary Pathologist,Client,Correlation
+2020-12-02,NS20-04801,"Andersen, Jeremiah",Banner Health,YES with Comments
+2020-12-15,MS20-02378,"Andersen, Jeremiah",Banner Health,NO with Comments
+2020-10-23,NC20-00440,"Hamner, H",Banner Health,YES with Comments
+2020-11-05,NS20-04430,"Nerby, Craig",Banner Health,YES with Comments
+2020-10-07,NS20-03969,"Nerby, Craig",Banner Health,YES with Comments
+2020-10-26,NS20-04267,"Nerby, Craig",Banner Health,NO with Comments
+2020-11-05,NS20-04428,"Nerby, Craig",Banner Health,YES with Comments
+2020-12-08,NS20-04870,"Nerby, Craig",Banner Health,YES with Comments
+2020-12-29,BFS20-0883,"Nerby, Craig",Banner Health,YES with Comments
+2020-12-29,MS20-02437,"Pizzi, Carrie",Banner Health,YES with Comments
+2020-11-17,MC20-00189,"Pizzi, Carrie",Banner Health,NO with Comments
+2020-10-01,NS20-03884,"Riley, Meghan",Banner Health,NO
+2020-12-21,NC20-00534,"Riley, Meghan",Banner Health,NO with Comments
+2020-12-08,CRC20-0363,"Stefka, Jakub",Cheyenne Regional Medical Center,YES with Comments
+2020-10-28,BS20-08853,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2020-12-08,BS20-09965,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2020-12-16,BS20-10132,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2020-12-29,BS20-10395,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2020-11-13,BS20-09317,"Barner, Ross",Memorial Hospital Central,YES with Comments
+2020-11-20,BC20-01161,"Barner, Ross",Memorial Hospital Central,YES with Comments
+2020-12-01,BC20-01188,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-10-21,BC20-01040,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-11-09,BS20-09143,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-11-09,BS20-09155,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-11-09,BS20-09168,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-11-09,BS20-09168,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-11-24,BS20-09617,"Bixby, Eric",Memorial Hospital Central,NO with Comments
+2020-12-02,BC20-01196,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-12-21,BS20-10250,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2020-10-21,BC20-01036,"Johnston, Nathan",Memorial Hospital Central,YES with Comments
+2020-10-27,BC20-01064,"Johnston, Nathan",Memorial Hospital Central,YES with Comments
+2020-12-22,BC20-01259,"Johnston, Nathan",Memorial Hospital Central,YES with Comments
+2020-11-04,BS20-09023,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2020-12-31,BS20-10457,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2020-11-03,GC20-00493,"Alam, Shadia",Memorial Hospital North,YES with Comments
+2020-10-15,GS20-04494,"Barner, Ross",Memorial Hospital North,YES with Comments
+2020-10-15,GS20-04495,"Barner, Ross",Memorial Hospital North,NO with Comments
+2020-10-15,GS20-04495,"Barner, Ross",Memorial Hospital North,NO with Comments
+2020-10-15,GS20-04495,"Barner, Ross",Memorial Hospital North,YES with Comments
+2020-10-22,GS20-04622,"Barner, Ross",Memorial Hospital North,YES with Comments
+2020-10-14,GS20-04471,"Bixby, Eric",Memorial Hospital North,YES with Comments
+2020-12-01,GS20-05225,"Bixby, Eric",Memorial Hospital North,YES with Comments
+2020-11-30,SO20-02037,"Barner, Ross",Memorial Outpatient,YES with Comments
+2020-12-28,SO20-02223,"McLaughlin, Cristina",Memorial Outpatient,YES with Comments
+2020-12-23,OS20-27065,"Haberman, Phillip",Summit Pathology Outpatient,NO
+2020-11-09,OS20-23561,"Murphy, Claire",Summit Pathology Outpatient,YES with Comments
+2020-10-15,OS20-21594,"Murphy, Claire",Summit Pathology Outpatient,YES with Comments
+2020-12-07,OS20-25825,"Nerby, Craig",Summit Pathology Outpatient,YES with Comments
+2020-11-04,OS20-23180,"Salisbury, Catherine",Summit Pathology Outpatient,YES with Comments
+2020-12-04,OS20-25715,"Salisbury, Catherine",Summit Pathology Outpatient,YES with Comments
+2020-10-21,OS20-22205,"Worcester, Heath",Summit Pathology Outpatient,YES with Comments
+2020-10-07,RS20-04136,"Andersen, Jeremiah",UC Health North,YES with Comments
+2020-10-12,RS20-04228,"Andersen, Jeremiah",UC Health North,NO with Comments
+2020-10-21,RC20-00461,"Andersen, Jeremiah",UC Health North,NO
+2020-11-05,RS20-04614,"Andersen, Jeremiah",UC Health North,YES with Comments
+2020-10-15,RS20-04281,"Hamner, H",UC Health North,YES with Comments
+2020-11-30,RC20-00526,"Hamner, H",UC Health North,NO
+2020-10-05,RC20-00432,"Libby, Arlene",UC Health North,YES with Comments
+2020-11-06,VC20-00795,"Libby, Arlene",UC Health North,YES with Comments
+2020-11-20,AS20-02917,"Libby, Arlene",UC Health North,YES with Comments
+2020-12-03,RS20-05020,"Libby, Arlene",UC Health North,NO with Comments
+2020-12-29,RC20-00573,"Libby, Arlene",UC Health North,YES with Comments
+2020-10-29,VS20-05290,"Murphy, Claire",UC Health North,YES with Comments
+2020-11-05,RS20-04611,"Pizzi, Carrie",UC Health North,YES with Comments
+2020-12-11,AC20-00218,"Walts, Michael",UC Health North,YES with Comments
+2020-10-29,VS20-05302,"Worcester, Heath",UC Health North,YES with Comments
+2020-12-23,VS20-06285,"Worcester, Heath",UC Health North,YES with Comments
