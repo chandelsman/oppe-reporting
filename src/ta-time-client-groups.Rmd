@@ -135,7 +135,7 @@ consult_iop_raw <-
 ```{r load-functions, message = FALSE, warning = FALSE}
 # Import functions --------------------------------------------------------
 # Generate dates of holidays, weekends, start, and stop times
-source(here("fns", "calculate_time_parameters.R"))
+source(here("fns", "calculate-time-parameters.R"))
 
 # Standardize client names and abbreviations
 source(here("fns", "define-client-groups.R"))

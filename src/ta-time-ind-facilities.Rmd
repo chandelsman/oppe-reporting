@@ -7,8 +7,8 @@ params:
   cl_grp:
     choices:
     - Centers for Gastroenterology
-    - Cheyenne Regional Medical Center
     - Colorado Plains Medical Center
+    - Cheyenne Regional Medical Center
     - Estes Park Health Hospital
     - Grandview Hospital
     - Ivinson Memorial Hospital
