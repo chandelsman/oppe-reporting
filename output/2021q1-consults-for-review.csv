@@ -1,0 +1,77 @@
+Collected date,Result ID,Primary Pathologist,Client,Correlation
+2021-01-22,MS21-00142,"Andersen, Jeremiah",Banner Health,YES with Comments
+2021-03-12,MS21-00512,"Hamner, H",Banner Health,YES with Comments
+2021-01-07,MC21-00003,"Libby, Arlene",Banner Health,"NA"
+2021-02-10,NS21-00522,"Murphy, Claire",Banner Health,NO
+2021-01-07,NS21-00070,"Nerby, Craig",Banner Health,YES with Comments
+2021-02-05,NC21-00058,"Nerby, Craig",Banner Health,YES with Comments
+2021-01-19,MS21-00111,"Pizzi, Carrie",Banner Health,YES with Comments
+2021-01-19,MS21-00117,"Pizzi, Carrie",Banner Health,NO with Comments
+2021-01-19,MS21-00117,"Pizzi, Carrie",Banner Health,YES with Comments
+2021-03-24,MS21-00571,"Pizzi, Carrie",Banner Health,YES with Comments
+2021-01-29,NS21-00391,"Riley, Meghan",Banner Health,YES with Comments
+2021-02-09,BFS21-0105,"Riley, Meghan",Banner Health,YES with Comments
+2021-02-17,CRS21-0310,"Haberman, Phillip",Cheyenne Regional Medical Center,YES with Comments
+2021-03-04,IS21-00244,"Smith, Michael",Ivinson Memorial Hospital,NO with Comments
+2021-01-11,BC21-00030,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2021-02-05,BC21-00140,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2021-02-15,BS21-01256,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2021-03-16,BC21-00301,"Alam, Shadia",Memorial Hospital Central,YES with Comments
+2021-03-16,BS21-02205,"Alam, Shadia",Memorial Hospital Central,NO with Comments
+2021-01-18,BC21-00059,"Barner, Ross",Memorial Hospital Central,YES with Comments
+2021-02-23,BS21-01506,"Barner, Ross",Memorial Hospital Central,YES with Comments
+2021-03-01,BS21-01726,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2021-03-15,BS21-02182,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2021-01-07,BC21-00022,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2021-01-21,BS21-00522,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2021-03-11,BC21-00285,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2021-03-15,BS21-02182,"Bixby, Eric",Memorial Hospital Central,YES with Comments
+2021-01-28,BS21-00713,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2021-01-05,BC21-00016,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2021-03-04,BC21-00254,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2021-03-09,BS21-01993,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2021-03-14,BS21-02169,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2021-03-30,BC21-00371,"McLaughlin, Cristina",Memorial Hospital Central,YES with Comments
+2021-03-16,GS21-01312,"Alam, Shadia",Memorial Hospital North,YES with Comments
+2021-01-13,GS21-00196,"Alam, Shadia",Memorial Hospital North,YES with Comments
+2021-01-13,GS21-00196,"Alam, Shadia",Memorial Hospital North,YES with Comments
+2021-01-13,GS21-00196,"Alam, Shadia",Memorial Hospital North,YES with Comments
+2021-03-03,GS21-01066,"Barner, Ross",Memorial Hospital North,YES with Comments
+2021-03-08,GS21-01161,"Barner, Ross",Memorial Hospital North,YES with Comments
+2021-03-10,GS21-01202,"Barner, Ross",Memorial Hospital North,NO with Comments
+2021-02-05,GC21-00060,"Bixby, Eric",Memorial Hospital North,YES with Comments
+2021-02-03,GS21-00572,"McLaughlin, Cristina",Memorial Hospital North,NO with Comments
+2021-02-03,GS21-00572,"McLaughlin, Cristina",Memorial Hospital North,NO with Comments
+2021-02-01,DS21-00049,"Haberman, Phillip",Memorial Hospital of Converse County,YES with Comments
+2021-03-29,DS21-00158,"Stefka, Jakub",Memorial Hospital of Converse County,YES with Comments
+2021-03-29,DS21-00158,"Stefka, Jakub",Memorial Hospital of Converse County,YES with Comments
+2021-02-11,SN21-00086,"Johnston, Nathan",Memorial Outpatient,YES with Comments
+2021-02-23,OSW21-0551,"Admin, Summit",Summit Pathology Outpatient,"NA"
+2021-02-10,OS21-03254,"Andersen, Jeremiah",Summit Pathology Outpatient,YES with Comments
+2021-03-04,OS21-05102,"Andersen, Jeremiah",Summit Pathology Outpatient,YES with Comments
+2021-02-15,OS21-03701,"Salisbury, Catherine",Summit Pathology Outpatient,YES with Comments
+2021-02-15,OS21-03684,"Salisbury, Catherine",Summit Pathology Outpatient,YES with Comments
+2021-01-27,OSW21-0252,"Stefka, Jakub",Summit Pathology Outpatient,YES with Comments
+2021-01-28,OS21-02235,"Vogt, Adam",Summit Pathology Outpatient,YES with Comments
+2021-01-27,OS21-02267,"Vogt, Adam",Summit Pathology Outpatient,YES with Comments
+2021-02-02,OS21-02529,"Vogt, Adam",Summit Pathology Outpatient,YES with Comments
+2021-02-02,OS21-02681,"Vogt, Adam",Summit Pathology Outpatient,YES with Comments
+2021-01-27,OS21-02005,"Worcester, Heath",Summit Pathology Outpatient,YES with Comments
+2021-01-29,OSW21-0353,"Worcester, Heath",Summit Pathology Outpatient,YES with Comments
+2021-02-08,OS21-02977,"Worcester, Heath",Summit Pathology Outpatient,YES with Comments
+2021-02-26,OS21-04725,"Worcester, Heath",Summit Pathology Outpatient,YES with Comments
+2021-02-24,VS21-01080,"Hamner, H",UC Health North,YES with Comments
+2021-03-08,RS21-01068,"Hamner, H",UC Health North,YES with Comments
+2021-03-16,RS21-01204,"Hamner, H",UC Health North,YES with Comments
+2021-01-21,RS21-00286,"Libby, Arlene",UC Health North,YES with Comments
+2021-03-15,AS21-00641,"Libby, Arlene",UC Health North,NO with Comments
+2021-03-26,AC21-00056,"Libby, Arlene",UC Health North,NO with Comments
+2021-02-03,RC21-00049,"Murphy, Claire",UC Health North,YES with Comments
+2021-03-03,RC21-00107,"Murphy, Claire",UC Health North,YES with Comments
+2021-01-18,VS21-00335,"Pizzi, Carrie",UC Health North,NO
+2021-02-03,VS21-00668,"Pizzi, Carrie",UC Health North,NO with Comments
+2021-02-12,VC21-00102,"Pizzi, Carrie",UC Health North,NO
+2021-02-12,VC21-00102,"Pizzi, Carrie",UC Health North,NO
+2021-02-24,RC21-00093,"Waldner, Dale",UC Health North,YES with Comments
+2021-03-15,VC21-00197,"Waldner, Dale",UC Health North,YES with Comments
+2021-02-16,VAS21-0067,"Long, Daniel",Wyoming Veterans Administration,YES with Comments
