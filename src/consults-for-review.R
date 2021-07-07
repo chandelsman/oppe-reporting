@@ -99,11 +99,11 @@ consult_review <-
   consult_ext %>% 
   bind_rows(consult_int) %>% 
   bind_rows(consult_iop) %>% 
-  filter(as_date(`Collected date`) >= "2021-01-01" & 
-           as_date(`Collected date`) <= "2021-03-31", 
+  filter(as_date(`Collected date`) >= "2021-04-01" & 
+           as_date(`Collected date`) <= "2021-06-30", 
          Correlation != "YES" & 
            Correlation != "Select") %>% 
   arrange(Client, `Primary Pathologist`)
 
 write_csv(consult_review, 
-          here("output", "2021q1-consults-for-review.csv"))
+          here("output", "2021q2-consults-for-review.csv"))
