@@ -40,3 +40,6 @@ vignettes/*.pdf
 
 # Mac Desktop Services files
 **/.DS_Store
+
+# Data files with Result IDs
+/data/
