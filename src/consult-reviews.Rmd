@@ -1,20 +1,54 @@
-# Make list of all consultations where consult was not yes. This includes
-# "yes w/ comments, "no", and "no w/ comments.
+---
+title: ''
+author: "null"
+output:
+  html_document: default
+params:
+  dt_start:
+    label: "Start Date"
+    input: date
+    value: !r Sys.Date()-90
+    max: !r Sys.Date()
+  dt_end: 
+    label: "End Date"
+    input: date
+    value: !r Sys.Date()-1
+    max: !r Sys.Date()
+editor_options:
+  chunk_output_type: console
+---
 
-# Load libraries
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE)
+knitr::opts_knit$set(root.dir = "..")
+```
+
+```{r load_libraries}
 library(tidyverse)
-library(lubridate)
-library(readxl)
 library(here)
-
+library(readxl)
+library(lubridate)
+library(timeDate)
+library(BusinessDuration)
+library(gt)
 
 # Import functions --------------------------------------------------------
-
 source(here("fns", "define-clients.R"))
+```
 
+<div align="center"> 
 
-# Import and clean data ---------------------------------------------------
+![](sp-logo.png){width=25%}
 
+## Consultations for Review
+
+### Reporting Period: `r {lubridate::year(params$dt_start)}` Quarter `r {lubridate::quarter(params$dt_start)}` 
+
+<br><br>
+
+```{r import-clean-data, include=FALSE}
 # internal consultation data ----------------------------------------------
 consult_int <- 
   list.files(path = here("data"),
@@ -93,17 +127,25 @@ consult_iop <-
   ) %>% 
   rename(Client = cl_grp, `Primary Pathologist` = `IntraOp Path`)
 
-# Merge consult data ------------------------------------------------------
+```
 
+```{r consults-to-review, include=FALSE}
 consult_review <- 
   consult_ext %>% 
   bind_rows(consult_int) %>% 
   bind_rows(consult_iop) %>% 
-  filter(as_date(`Collected date`) >= "2021-04-01" & 
-           as_date(`Collected date`) <= "2021-06-30", 
+  filter(as_date(`Collected date`) >= params$dt_start & 
+           as_date(`Collected date`) <= params$dt_end, 
          Correlation != "YES" & 
-           Correlation != "Select") %>% 
+           Correlation != "Select" & 
+           Correlation != "NA",
+         Client != "Summit Pathology Outpatient") %>% 
   arrange(Client, `Primary Pathologist`)
+```
 
-write_csv(consult_review, 
-          here("output", "2021q3-consults-for-review.csv"))
+```{r review-table, warning=FALSE}
+consult_review %>% 
+  gt(rowname_col = "Primary Pathologist", groupname_col = "Client")
+```
+
+
