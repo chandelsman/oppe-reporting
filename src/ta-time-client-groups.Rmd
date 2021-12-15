@@ -222,14 +222,14 @@ ta_time %>%
   gt(auto_align = TRUE) %>%
   tab_header(title = "",
               subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -264,14 +264,14 @@ ta_time %>%
   gt(auto_align = TRUE) %>%
   tab_header(title = md("*CPT codes 88311 and 88341 **excluded***"),
               subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -321,14 +321,14 @@ case_stats %>% bind_rows(group_stats) %>%
   gt(rowname_col = "type") %>%
   tab_header(title = "",
              subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -377,14 +377,14 @@ case_stats %>% bind_rows(group_stats) %>%
   gt(rowname_col = "type") %>%
   tab_header(title = md("*CPT codes 88311 and 88341 **excluded***"),
              subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -427,14 +427,14 @@ ta_time %>%
   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
   tab_header(title = "",
               subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -528,11 +528,11 @@ path_stats %>% bind_rows(team_stats) %>%
   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
   tab_header(title = "",
              subtitle = "") %>%
-  fmt_number(columns = vars(reviewed),
+  fmt_number(columns = c(reviewed),
              decimals = 0,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(percent_reviewed),
+    columns = c(percent_reviewed),
     decimals = 2,
     use_seps = TRUE
   ) %>%
