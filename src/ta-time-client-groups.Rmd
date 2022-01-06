@@ -7,43 +7,32 @@ params:
   cl_grp:
     choices:
     - Banner Health
-    - Memorial Outpatient
-    - Summit Pathology Outpatient
-    - Tech Only Clients
+    # - Memorial Outpatient
+    # - Summit Pathology Outpatient
+    # - Tech Only Clients
     - UC Health North
     - UC Health South
     input: select
     label: Client Group
     value: UC Health North
-  period:
+  quarter:
     choices:
-    - Quarter 1
-    - Quarter 2
-    - Quarter 3
-    - Quarter 4
+    - 1
+    - 2
+    - 3
+    - 4
     input: select
     label: Time Period
-    value: Quarter 1
-  year:
-    choices:
-    - 2020
-    - 2021
-    - 2022
-    - 2023
-    - 2024
-    - 2025
-    input: select
-    label: Year
-    value: 2021
+    value: !r lubridate::quarter(Sys.Date()-10)
   dt_start:
     label: "Start Date"
     input: date
-    value: !r Sys.Date()-90
+    value: !r lubridate::floor_date((Sys.Date()-10), "quarter")
     max: !r Sys.Date()
   dt_end: 
     label: "End Date"
     input: date
-    value: !r Sys.Date()-1
+    value: !r lubridate::ceiling_date((Sys.Date()-10), "quarter")-1
     max: !r Sys.Date()
 editor_options:
   chunk_output_type: console
@@ -58,7 +47,7 @@ knitr::opts_knit$set(root.dir = "..")
 
 ```{r overview}
 # This script produces quarterly OPPE reports for client groups as 
-# specified in the YAML header. Turaround time by client group, facility, 
+# specified in the YAML header. Turnaround time by client group, facility, 
 # and pathologist is calculated overall and subsequently broken down by 
 # surgical and non-gyn case types. Consultations are counted and presented 
 # by outcome (agree, disagree, etc.) for internal, external, and 
@@ -200,7 +189,7 @@ ta_time$span <- sapply(1:nrow(ta_time), function(x) {
 
 # **`r params$cl_grp`**
 
-## **`r params$year` `r params$period`** 
+## **`r lubridate::year(params$dt_start)` Quarter `r params$quarter`** 
 
 <br><br>
 
