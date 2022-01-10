@@ -6,7 +6,7 @@ output:
 params:
   cl_grp:
     choices:
-    - Centers for Gastroenterology
+    # - Centers for Gastroenterology
     - Cheyenne Regional Medical Center
     - Colorado Plains Medical Center
     - Estes Park Health Hospital
