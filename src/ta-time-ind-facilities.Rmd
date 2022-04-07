@@ -7,51 +7,41 @@ params:
   cl_grp:
     choices:
     - Centers for Gastroenterology
-    - Colorado Plains Medical Center
     - Cheyenne Regional Medical Center
+    - Colorado Plains Medical Center
     - Estes Park Health Hospital
     - Grandview Hospital
     - Ivinson Memorial Hospital
-    - Kimball County Hospital
+    # - Kimball County Hospital ### Not using???
     - Melissa Memorial Hospital
     - Memorial Hospital of Carbon County
     - Memorial Hospital Central
     - Memorial Hospital North
-    - Memorial Hospital of Converse County
+    # - Memorial Hospital of Converse County ### Client inactive after 2021 Q3
     - Pikes Peak Regional Hospital
+    - Sheridan
     - Wyoming Veterans Administration
     input: select
     label: Client Group
-    value: Grandview Hospital
-  period:
+    value: Ivinson Memorial Hospital
+  quarter:
     choices:
-    - Quarter 1
-    - Quarter 2
-    - Quarter 3
-    - Quarter 4
+    - 1
+    - 2
+    - 3
+    - 4
     input: select
-    label: Time Period
-    value: Quarter 1
-  year:
-    choices:
-    - 2020
-    - 2021
-    - 2022
-    - 2023
-    - 2024
-    - 2025
-    input: select
-    label: Year
-    value: 2021
+    label: Quarter
+    value: !r lubridate::quarter(Sys.Date()-10)
   dt_start:
     label: "Start Date"
     input: date
-    value: !r Sys.Date()-90
+    value: !r lubridate::floor_date((Sys.Date()-10), "quarter")
     max: !r Sys.Date()
   dt_end: 
     label: "End Date"
     input: date
-    value: !r Sys.Date()-1
+    value: !r lubridate::ceiling_date((Sys.Date()-10), "quarter")-1
     max: !r Sys.Date()
 editor_options:
   chunk_output_type: console
@@ -66,7 +56,7 @@ knitr::opts_knit$set(root.dir = "..")
 
 ```{r overview}
 # This script produces quarterly OPPE reports for client groups as 
-# specified in the YAML header. Turaround time by client group, facility, 
+# specified in the YAML header. Turnaround time by client group, facility, 
 # and pathologist is calculated overall and subsequently broken down by 
 # surgical and non-gyn case types. Consultations are counted and presented 
 # by outcome (agree, disagree, etc.) for internal, external, and 
@@ -208,7 +198,7 @@ ta_time$span <- sapply(1:nrow(ta_time), function(x) {
 
 # **`r params$cl_grp`**
 
-## **`r params$year` `r params$period`** 
+## **`r lubridate::year(params$dt_start)` Quarter `r params$quarter`** 
 
 <br><br>
 
@@ -230,14 +220,14 @@ ta_time %>%
   gt(auto_align = TRUE) %>%
   tab_header(title = "",
               subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -272,14 +262,14 @@ ta_time %>%
   gt(auto_align = TRUE) %>%
   tab_header(title = md("*CPT codes 88311 and 88341 **excluded***"),
               subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -329,14 +319,14 @@ case_stats %>% bind_rows(group_stats) %>%
   gt(rowname_col = "type") %>%
   tab_header(title = "",
              subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -385,14 +375,14 @@ case_stats %>% bind_rows(group_stats) %>%
   gt(rowname_col = "type") %>%
   tab_header(title = md("*CPT codes 88311 and 88341 **excluded***"),
              subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = c(Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = c(Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = c(`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -435,14 +425,14 @@ ta_time %>%
   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
   tab_header(title = "",
               subtitle = "") %>%
-  fmt_number(columns = vars(Cases),
+  fmt_number(columns = (Cases),
              decimals = 0,
              use_seps = TRUE) %>%
-  fmt_number(columns = vars(Average),
+  fmt_number(columns = (Average),
              decimals = 1,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(`Under 48 hrs`),
+    columns = (`Under 48 hrs`),
     decimals = 1,
     use_seps = T
   ) %>%
@@ -536,11 +526,11 @@ path_stats %>% bind_rows(team_stats) %>%
   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
   tab_header(title = "",
              subtitle = "") %>%
-  fmt_number(columns = vars(reviewed),
+  fmt_number(columns = c(reviewed),
              decimals = 0,
              use_seps = TRUE) %>%
   fmt_percent(
-    columns = vars(percent_reviewed),
+    columns = c(percent_reviewed),
     decimals = 2,
     use_seps = TRUE
   ) %>%
