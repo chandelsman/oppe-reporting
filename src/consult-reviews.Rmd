@@ -7,12 +7,12 @@ params:
   dt_start:
     label: "Start Date"
     input: date
-    value: !r Sys.Date()-90
+    value: !r lubridate::floor_date((Sys.Date()-10), "quarter")
     max: !r Sys.Date()
   dt_end: 
     label: "End Date"
     input: date
-    value: !r Sys.Date()-1
+    value: !r lubridate::ceiling_date((Sys.Date()-10), "quarter")-1
     max: !r Sys.Date()
 editor_options:
   chunk_output_type: console
@@ -65,11 +65,13 @@ consult_int <-
     type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
     grp = client_abbr(`Sequence Group`),
-    cl_grp = client_group(`Sequence Group`)
+    cl_grp = client_group(`Sequence Group`),
+    `Consulting Pathologist` = str_extract(`Consulting Pathologist`, ".+?(?=,)")
   ) %>% 
   select(`Collected date`, 
          `Result ID`, 
-         `Primary Pathologist`, 
+         `Primary Pathologist`,
+         `Consulting Pathologist`,
          cl_grp,
          Correlation
   ) %>% 
