@@ -452,8 +452,8 @@ ta_time %>%
   )
 ```
 
-<div style = "page-break-before: always">
-  <div style = "text-align: center"> 
+<!-- <div style = "page-break-before: always"> -->
+<!--   <div style = "text-align: center">  -->
 
 ```{r tat_table_pathologist_filtered, message = FALSE, warning = FALSE}
 
