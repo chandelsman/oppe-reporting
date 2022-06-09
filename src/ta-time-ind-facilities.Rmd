@@ -21,6 +21,7 @@ params:
     - Pikes Peak Regional Hospital
     - Sheridan
     - Wyoming Veterans Administration
+    - UC Health North
     input: select
     label: Client Group
     value: Ivinson Memorial Hospital
@@ -187,6 +188,10 @@ ta_time$span <- sapply(1:nrow(ta_time), function(x) {
     unit = unit_hour
   )
 })
+
+ta_time <- 
+  ta_time %>% 
+  filter(!is.na(span))
 ```
 
 <br><br><br><br><br><br><br><br><br><br><br><br>

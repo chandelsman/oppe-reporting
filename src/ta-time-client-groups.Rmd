@@ -22,7 +22,7 @@ params:
     - 3
     - 4
     input: select
-    label: Time Period
+    label: Quarter
     value: !r lubridate::quarter(Sys.Date()-10)
   dt_start:
     label: "Start Date"
@@ -178,6 +178,10 @@ ta_time$span <- sapply(1:nrow(ta_time), function(x) {
     unit = unit_hour
   )
 })
+
+ta_time <- 
+  ta_time %>% 
+  filter(!is.na(span))
 ```
 
 <br><br><br><br><br><br><br><br><br><br><br><br>
