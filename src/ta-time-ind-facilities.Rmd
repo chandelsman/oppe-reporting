@@ -1,23 +1,21 @@
 ---
 title: ''
-author: "null"
+author: 'null'
 output:
+  # pdf_document: default
   html_document: default
 params:
   cl_grp:
     choices:
     - Centers for Gastroenterology
-    - Cheyenne Regional Medical Center
     - Colorado Plains Medical Center
     - Estes Park Health Hospital
     - Grandview Hospital
     - Ivinson Memorial Hospital
-    # - Kimball County Hospital ### Not using???
     - Melissa Memorial Hospital
     - Memorial Hospital of Carbon County
     - Memorial Hospital Central
     - Memorial Hospital North
-    # - Memorial Hospital of Converse County ### Client inactive after 2021 Q3
     - Pikes Peak Regional Hospital
     - Sheridan
     - Wyoming Veterans Administration
@@ -35,12 +33,12 @@ params:
     label: Quarter
     value: !r lubridate::quarter(Sys.Date()-10)
   dt_start:
-    label: "Start Date"
+    label: Start Date
     input: date
     value: !r lubridate::floor_date((Sys.Date()-10), "quarter")
     max: !r Sys.Date()
-  dt_end: 
-    label: "End Date"
+  dt_end:
+    label: End Date
     input: date
     value: !r lubridate::ceiling_date((Sys.Date()-10), "quarter")-1
     max: !r Sys.Date()
