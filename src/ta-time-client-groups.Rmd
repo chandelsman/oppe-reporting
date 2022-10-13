@@ -5,16 +5,16 @@ output:
   html_document: default
 params:
   cl_grp:
-    choices:
-    - Banner Health
     # - Memorial Outpatient
     # - Summit Pathology Outpatient
     # - Tech Only Clients
-    - UC Health North
-    - UC Health South
+    choices:
+    - Banner Health
+    - UCHealth North
+    - UCHealth South
     input: select
     label: Client Group
-    value: UC Health North
+    value: UCHealth North
   quarter:
     choices:
     - 1
@@ -23,16 +23,16 @@ params:
     - 4
     input: select
     label: Quarter
-    value: !r lubridate::quarter(Sys.Date()-10)
+    value: !r lubridate::quarter(Sys.Date()-30)
   dt_start:
     label: "Start Date"
     input: date
-    value: !r lubridate::floor_date((Sys.Date()-10), "quarter")
+    value: !r lubridate::floor_date((Sys.Date()-90), "quarter")
     max: !r Sys.Date()
   dt_end: 
     label: "End Date"
     input: date
-    value: !r lubridate::ceiling_date((Sys.Date()-10), "quarter")-1
+    value: !r lubridate::ceiling_date((Sys.Date()-90), "quarter")-1
     max: !r Sys.Date()
 editor_options:
   chunk_output_type: console

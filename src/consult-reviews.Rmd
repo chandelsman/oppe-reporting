@@ -7,12 +7,12 @@ params:
   dt_start:
     label: "Start Date"
     input: date
-    value: !r lubridate::floor_date((Sys.Date()-10), "quarter")
+    value: !r lubridate::floor_date((Sys.Date()-90), "quarter")
     max: !r Sys.Date()
   dt_end: 
     label: "End Date"
     input: date
-    value: !r lubridate::ceiling_date((Sys.Date()-10), "quarter")-1
+    value: !r lubridate::ceiling_date((Sys.Date()-90), "quarter")-1
     max: !r Sys.Date()
 editor_options:
   chunk_output_type: console

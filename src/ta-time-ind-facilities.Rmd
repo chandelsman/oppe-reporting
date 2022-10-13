@@ -8,7 +8,6 @@ params:
   cl_grp:
     choices:
     - Centers for Gastroenterology
-    - Colorado Plains Medical Center
     - Estes Park Health Hospital
     - Grandview Hospital
     - Ivinson Memorial Hospital
@@ -18,8 +17,9 @@ params:
     - Memorial Hospital North
     - Pikes Peak Regional Hospital
     - Sheridan
+    - St Elizabeth Hospital
     - Wyoming Veterans Administration
-    - UC Health North
+    - UCHealth North
     input: select
     label: Client Group
     value: Ivinson Memorial Hospital
@@ -31,16 +31,16 @@ params:
     - 4
     input: select
     label: Quarter
-    value: !r lubridate::quarter(Sys.Date()-10)
+    value: !r lubridate::quarter(Sys.Date()-30)
   dt_start:
     label: Start Date
     input: date
-    value: !r lubridate::floor_date((Sys.Date()-10), "quarter")
+    value: !r lubridate::floor_date((Sys.Date()-90), "quarter")
     max: !r Sys.Date()
   dt_end:
     label: End Date
     input: date
-    value: !r lubridate::ceiling_date((Sys.Date()-10), "quarter")-1
+    value: !r lubridate::ceiling_date((Sys.Date()-90), "quarter")-1
     max: !r Sys.Date()
 editor_options:
   chunk_output_type: console
@@ -147,7 +147,7 @@ source(here("fns", "define-clients.R"))
 # drop deleted cases
 
 ta_time <- ta_time_raw %>%
-  rename(`Sequence Group` = `SEQUENCE GROUP`) %>% 
+  rename(`Sequence Group` = `SEQUENCE GROUP`) %>%
   mutate(
     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
@@ -161,10 +161,12 @@ ta_time <- ta_time_raw %>%
     grp = client_abbr(`Sequence Group`),
     cl_grp = client_group(`Sequence Group`)
   ) %>%
-  filter(!is.na(`original release`), 
-         as_date(Create) >= params$dt_start & as_date(Create) <= params$dt_end,
-         cl_grp == params$cl_grp,
-         !is.na(PATHOLOGIST)) # drop deleted records
+  filter(
+    !is.na(`original release`),
+    as_date(Create) >= params$dt_start &
+      as_date(Create) <= params$dt_end,
+    cl_grp == params$cl_grp,!is.na(PATHOLOGIST)
+  ) # drop deleted records
 ```
 
 ```{r calculate turnaround time, message = FALSE, warning = FALSE}
@@ -234,7 +236,7 @@ ta_time %>%
     decimals = 1,
     use_seps = T
   ) %>%
-  fmt_missing(
+  sub_missing(
     columns = everything(),
     missing_text = "---"
   ) %>% 
@@ -276,7 +278,7 @@ ta_time %>%
     decimals = 1,
     use_seps = T
   ) %>%
-  fmt_missing(
+  sub_missing(
     columns = everything(),
     missing_text = "---"
   ) %>% 
@@ -333,7 +335,7 @@ case_stats %>% bind_rows(group_stats) %>%
     decimals = 1,
     use_seps = T
   ) %>%
-  fmt_missing(
+  sub_missing(
     columns = everything(),
     missing_text = "---"
   ) %>% 
@@ -389,7 +391,7 @@ case_stats %>% bind_rows(group_stats) %>%
     decimals = 1,
     use_seps = T
   ) %>%
-  fmt_missing(
+  sub_missing(
     columns = everything(),
     missing_text = "---"
   ) %>% 
@@ -439,7 +441,7 @@ ta_time %>%
     decimals = 1,
     use_seps = T
   ) %>%
-  fmt_missing(
+  sub_missing(
     columns = everything(),
     missing_text = "---"
   ) %>% 
@@ -539,7 +541,7 @@ path_stats %>% bind_rows(team_stats) %>%
   ) %>%
   cols_label(reviewed = "Correlation (Yes)",
              percent_reviewed = "% Reviewed") %>%
-  fmt_missing(columns = everything(),
+  sub_missing(columns = everything(),
               missing_text = "---") %>%
   cols_align(align = "center") %>%
   tab_options(
@@ -613,7 +615,7 @@ path_ext %>% bind_rows(team_ext) %>%
   gt(rowname_col = "Primary Pathologist", auto_align = TRUE) %>%
   tab_header(title = "",
              subtitle = "") %>%
-  fmt_missing(columns = everything(),
+  sub_missing(columns = everything(),
               missing_text = "---") %>%
   cols_align(align = "center") %>%
   tab_options(
@@ -693,7 +695,7 @@ type_iop %>% bind_rows(sum_iop) %>%
   gt(rowname_col = "IntraOp Type") %>%
   tab_header(title = "",
               subtitle = "") %>%
-  fmt_missing(columns = everything(),
+  sub_missing(columns = everything(),
               missing_text = "---") %>%
   cols_align(align = "center") %>%
   tab_options(
@@ -747,7 +749,7 @@ path_iop %>% bind_rows(path_sum_iop) %>%
   gt(rowname_col = "IntraOp Type", auto_align = TRUE) %>%
   tab_header(title = "",
               subtitle = "") %>%
-  fmt_missing(columns = everything(),
+  sub_missing(columns = everything(),
               missing_text = "---") %>%
   cols_align(align = "center") %>%
   tab_options(
