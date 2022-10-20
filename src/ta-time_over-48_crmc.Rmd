@@ -289,7 +289,7 @@ ta_time %>%
 #   )
 ```
 
-<div style = "page-break-before: always">
+<div style = "page-break-before: auto">
   <div style = "text-align: center"> 
 
 ## Turnaround Time > 48 hours by Case Type 
@@ -300,19 +300,22 @@ ta_time %>%
 ```{r tat_table_facility, message = FALSE, warning = FALSE}
 
 case_stats <-  ta_time %>%
-  group_by(client, type) %>%
+  # group_by(client, type) %>%
+  group_by(type) %>%
   summarize(
     Cases = n(),
     Average = mean(span),
+    `n > 48 hrs` = sum(span >= 48),
     `Percent > 48 hrs` = sum(span >= 48) / n()
   )
 
 group_stats <- ta_time %>%
-  group_by(client) %>%
+  # group_by(client) %>%
   summarize(
     type = "Summary",
     Cases = n(),
     Average = mean(span),
+    `n > 48 hrs` = sum(span >= 48),
     `Percent > 48 hrs` = sum(span >= 48) / n()
   )
 
@@ -406,7 +409,7 @@ case_stats %>% bind_rows(group_stats) %>%
 
 <br>
 
-<div style = "page-break-before: auto">
+<div style = "page-break-before: always">
   <div style = "text-align: center"> 
 
 ## Turnaround Time > 48 hours by Pathologist 
@@ -421,6 +424,7 @@ ta_time %>%
   summarize(
     Cases = n(),
     Average = mean(span),
+    `n > 48 hrs` = sum(span >= 48),
     `Percent > 48 hrs` = sum(span >= 48) / n()
   ) %>%
   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
@@ -452,6 +456,36 @@ ta_time %>%
     table.width = pct(75)
   )
 ```
+
+<br>
+
+<div style = "page-break-before: auto">
+  <div style = "text-align: center"> 
+
+## Cases with Turnaround Time > 48 hour
+
+  </div>
+</div>
+
+```{r cases_over_48hrs, message = FALSE, warning = FALSE}
+ta_time %>%
+  filter(span >= 48) %>%
+  select(`RESULT ID`, PATHOLOGIST) %>%
+  arrange(PATHOLOGIST, `RESULT ID`) %>% 
+  gt(auto_align = TRUE) %>%
+  tab_header(title = "",
+             subtitle = "") %>%
+  cols_label(`RESULT ID` = "Result ID",
+             PATHOLOGIST = "Pathologist") %>%
+  tab_options(
+    # summary_row.padding = px(2),
+    row_group.font.weight = "bold",
+    row_group.padding = px(8),
+    column_labels.font.weight = "bold",
+    table.width = pct(75)
+  )
+```
+
 
 <!-- <div style = "page-break-before: always"> -->
 <!--   <div style = "text-align: center">  -->
