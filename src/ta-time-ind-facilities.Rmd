@@ -46,14 +46,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,
-                      message = FALSE,
-                      warning = FALSE)
-knitr::opts_knit$set(root.dir = "..")
-```
-
-```{r overview}
+```{r overview, include = FALSE, message = FALSE, warning = FALSE}
 # This script produces quarterly OPPE reports for client groups as 
 # specified in the YAML header. Turnaround time by client group, facility, 
 # and pathologist is calculated overall and subsequently broken down by 
@@ -62,14 +55,27 @@ knitr::opts_knit$set(root.dir = "..")
 # intraoperative consultations. 
 ```
 
-```{r load_libraries}
-library(tidyverse)
-library(here)
-library(readxl)
-library(lubridate)
-library(timeDate)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r load_libraries, message = FALSE, warning = FALSE}
 library(BusinessDuration)
 library(gt)
+library(here)
+library(lubridate)
+library(readxl)
+library(tidyverse)
+library(timeDate)
+```
+
+```{r load-functions, message = FALSE, warning = FALSE}
+# Import functions --------------------------------------------------------
+# Generate dates of holidays, weekends, start, and stop times
+source(here("fns", "calculate-time-parameters.R"))
+
+# Standardize client names and abbreviations
+source(here("fns", "define-clients.R"))
 ```
 
 ```{r load_data, message = FALSE, warning = FALSE}
@@ -129,14 +135,6 @@ consult_iop_raw <-
   bind_rows() 
 ```
 
-```{r load-functions, message = FALSE, warning = FALSE}
-# Import functions --------------------------------------------------------
-# Generate dates of holidays, weekends, start, and stop times
-source(here("fns", "calculate-time-parameters.R"))
-
-# Standardize client names and abbreviations
-source(here("fns", "define-clients.R"))
-```
 
 ```{r turnaround time, message = FALSE, warning = FALSE}
 # Clean turnaround time data ----------------------------------------------
