@@ -26,13 +26,11 @@ knitr::opts_knit$set(root.dir = "..")
 ```
 
 ```{r load_libraries}
-library(tidyverse)
-library(here)
-library(readxl)
-library(lubridate)
-library(timeDate)
-library(BusinessDuration)
 library(gt)
+library(here)
+library(lubridate)
+library(readxl)
+library(tidyverse)
 
 # Import functions --------------------------------------------------------
 source(here("fns", "define-clients.R"))
