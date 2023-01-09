@@ -61,7 +61,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ```{r load_libraries, include = FALSE}
-library(BusinessDuration)
+library(difftimeOffice)
 library(gt)
 library(here)
 library(lubridate)
@@ -72,9 +72,6 @@ library(timeDate)
 
 ```{r load-functions, include = FALSE, message = FALSE, warning = FALSE}
 # Import functions --------------------------------------------------------
-# Generate dates of holidays, weekends, start, and stop times
-source(here("fns", "calculate-time-parameters.R"))
-
 # Standardize client names and abbreviations
 source(here("fns", "define-clients.R"))
 ```
@@ -173,17 +170,32 @@ ta_time <- ta_time_raw %>%
 #   holidays: New Years, Memorial Day, Labor Day, 
 #             Independence Day, Thanksgiving, Christmas
 
-ta_time$span <- sapply(1:nrow(ta_time), function(x) {
-  businessDuration(
-    startdate = ta_time$Create[x],
-    enddate = ta_time$`original release`[x],
-    starttime = starttime,
-    endtime = endtime,
-    weekendlist = weekend_list,
-    holidaylist = US_holiday_list,
-    unit = unit_hour
-  )
-})
+ta_time$span <-
+  sapply(1:nrow(ta_time), function(x) {
+    difftime_office_hours(
+      started = ta_time$Create[x],
+      ended = ta_time$`original release`[x],
+      working_hours = c(0, 24),
+      holidays =
+        c(
+          "2022-01-03",
+          "2022-05-30",
+          "2022-07-04",
+          "2022-09-05",
+          "2022-11-24",
+          "2022-12-26"
+        )
+    )
+  })
+
+ta_time$span <- 
+  ta_time %>% 
+  filter(!is.na(span)), 
+  mutate(span = span / 3600)
+
+# ta_time <- 
+#   ta_time %>% 
+#   filter(!is.na(span))
 ```
 
 <br><br><br><br><br><br><br><br><br><br><br><br>
