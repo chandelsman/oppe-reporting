@@ -179,14 +179,8 @@ ta_time$span <-
     )
   })
 
-ta_time$span <- 
-  ta_time %>% 
-  filter(!is.na(span)), 
-  mutate(span = span / 3600)
-
-# ta_time <- 
-#   ta_time %>% 
-#   filter(!is.na(span))
+# Convert elapsed time from seconds to hours 
+ta_time$span <- ta_time$span / 3600 
 ```
 
 <br><br><br><br><br><br><br><br><br><br><br><br>

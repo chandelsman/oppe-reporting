@@ -22,7 +22,6 @@ editor_options:
 knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE,
                       warning = FALSE)
-knitr::opts_knit$set(root.dir = "..")
 ```
 
 ```{r load_libraries}
