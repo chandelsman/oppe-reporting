@@ -5,9 +5,7 @@ output:
   html_document: default
 params:
   cl_grp:
-    choices:
     # - Centers for Gastroenterology
-    - Cheyenne Regional Medical Center
     # - Colorado Plains Medical Center
     # - Estes Park Health Hospital
     # - Grandview Hospital
@@ -21,6 +19,8 @@ params:
     # - Wyoming Veterans Administration
     # - Kimball County Hospital ### Not using???
     # - Memorial Hospital of Converse County ### Client inactive after 2021 Q3
+    choices:
+    - Cheyenne Regional Medical Center
     input: select
     label: Client Group
     value: Cheyenne Regional Medical Center
@@ -188,14 +188,8 @@ ta_time$span <-
     )
   })
 
-ta_time$span <- 
-  ta_time %>% 
-  filter(!is.na(span)), 
-  mutate(span = span / 3600)
-
-# ta_time <- 
-#   ta_time %>% 
-#   filter(!is.na(span))
+# Convert elapsed time from seconds to hours
+ta_time$span <- ta_time$span / 3600
 ```
 
 <br><br><br><br><br><br><br><br><br><br><br><br>

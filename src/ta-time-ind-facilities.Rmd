@@ -16,10 +16,10 @@ params:
     - Memorial Hospital Central
     - Memorial Hospital North
     - Pikes Peak Regional Hospital
-    - Sheridan
+    # - Sheridan
     - St Elizabeth Hospital
     - Wyoming Veterans Administration
-    - UCHealth North
+    # - UCHealth North
     input: select
     label: Client Group
     value: Ivinson Memorial Hospital
