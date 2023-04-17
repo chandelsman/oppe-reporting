@@ -1,7 +1,6 @@
 client_abbr <- function(`Sequence Group`) {
   case_when(
     `Sequence Group` == "NGYN (BFCMC)"      ~ "BHS",
-    `Sequence Group` == "NGYN (CPMC)"       ~ "CPMC",
     `Sequence Group` == "NGYN (CRMC)"       ~ "CRMC",
     `Sequence Group` == "NGYN (EMCH)"       ~ "BHS",
     `Sequence Group` == "NGYN (EPMC)"       ~ "EPMC",
@@ -18,6 +17,7 @@ client_abbr <- function(`Sequence Group`) {
     `Sequence Group` == "NGYN (PEAK)"       ~ "OP_SP",
     `Sequence Group` == "NGYN (PVH)"        ~ "UC_NORTH",
     `Sequence Group` == "NGYN (RAWLINS)"    ~ "RWLNS",
+    `Sequence Group` == "NGYN (SEH)"        ~ "SEH",
     `Sequence Group` == "NGYN (SRMC)"       ~ "BHS",
     `Sequence Group` == "NGYN (UCHGH)"      ~ "UC_NORTH",
     `Sequence Group` == "NGYN (WOODLAND)"   ~ "UC_SOUTH",
@@ -27,7 +27,6 @@ client_abbr <- function(`Sequence Group`) {
     `Sequence Group` == "NGYN OP (SPWY)"    ~ "OP_SP",
     `Sequence Group` == "SURG (BFCMC)"      ~ "BHS",
     `Sequence Group` == "SURG (CFG)"        ~ "CFG",
-    `Sequence Group` == "SURG (CPMC)"       ~ "CPMC",
     `Sequence Group` == "SURG (CRMC)"       ~ "CRMC",
     `Sequence Group` == "SURG (EMCH)"       ~ "BHS",
     `Sequence Group` == "SURG (EPMC)"       ~ "EPMC",
@@ -48,6 +47,7 @@ client_abbr <- function(`Sequence Group`) {
     `Sequence Group` == "SURG (PEAK)"       ~ "OP_SP",
     `Sequence Group` == "SURG (PVH)"        ~ "UC_NORTH",
     `Sequence Group` == "SURG (RAWLINS)"    ~ "RWLNS",
+    `Sequence Group` == "SURG (SEH)"        ~ "SEH",
     `Sequence Group` == "SURG (SRMC)"       ~ "BHS",
     `Sequence Group` == "SURG (TORRINGTON)" ~ "BHS",
     `Sequence Group` == "SURG (UCHGH)"      ~ "UC_NORTH",
@@ -64,7 +64,6 @@ client_abbr <- function(`Sequence Group`) {
 client_group <- function(`Sequence Group`) {
   case_when(
     `Sequence Group` == "NGYN (BFCMC)"        ~ "Banner Health",
-    `Sequence Group` == "NGYN (CPMC)"         ~ "St Elizabeth Hospital",
     `Sequence Group` == "NGYN (CRMC)"         ~ "Cheyenne Regional Medical Center",
     `Sequence Group` == "NGYN (EMCH)"         ~ "Banner Health",
     `Sequence Group` == "NGYN (EPMC)"         ~ "Estes Park Health Hospital",
@@ -81,6 +80,7 @@ client_group <- function(`Sequence Group`) {
     `Sequence Group` == "NGYN (PEAK)"         ~ "Summit Pathology Outpatient",
     `Sequence Group` == "NGYN (PVH)"          ~ "UCHealth North",
     `Sequence Group` == "NGYN (RAWLINS)"      ~ "Memorial Hospital of Carbon County",
+    `Sequence Group` == "NGYN (SEH)"          ~ "St Elizabeth Hospital",
     `Sequence Group` == "NGYN (SRMC)"         ~ "Banner Health",
     `Sequence Group` == "NGYN (UCHGH)"        ~ "UCHealth North",
     `Sequence Group` == "NGYN (WOODLAND)"     ~ "UCHealth South",

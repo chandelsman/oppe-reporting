@@ -104,33 +104,6 @@ ta_time_raw <-
            )
   ) %>% 
   bind_rows()
-
-# internal consultation data ----------------------------------------------
-# consult_int_raw <- 
-#   list.files(path = here("data"),
-#              pattern = "(\\d){4}\\D\\d-int\\.xls",
-#              full.names = TRUE 
-#   ) %>% 
-#   sapply(read_excel, simplify = FALSE) %>% 
-#   bind_rows()
-
-# external consultation data ----------------------------------------------
-# consult_ext_raw <- 
-#   list.files(path = here("data"),
-#              pattern = "(\\d){4}\\D\\d-ext\\.xls",
-#              full.names = TRUE 
-#   ) %>% 
-#   sapply(read_excel, simplify = FALSE) %>% 
-#   bind_rows()
-
-# intraoperative consultation data ----------------------------------------
-# consult_iop_raw <- 
-#   list.files(path = here("data"),
-#              pattern = "(\\d){4}\\D\\d-iop\\.xls",
-#              full.names = TRUE 
-#   ) %>% 
-#   sapply(read_excel, simplify = FALSE) %>% 
-#   bind_rows() 
 ```
 
 ```{r turnaround time, message = FALSE, warning = FALSE}
@@ -151,7 +124,7 @@ ta_time <- ta_time_raw %>%
     type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
     client = gsub("WOODLAND", "PPRH", client),
-    Create = mdy_hm(Create),
+    Create = as_datetime(parse_date_time(Create, c("mdy HM", "mdy HMS"))),
     `original release` = mdy_hm(`original release`),
     grp = client_abbr(`Sequence Group`),
     cl_grp = client_group(`Sequence Group`)
@@ -188,17 +161,14 @@ ta_time$span <-
     )
   })
 
-ta_time$span <- 
-  ta_time %>% 
-  filter(!is.na(span)), 
-  mutate(span = span / 3600)
+# Convert elapsed time from seconds to hours
+ta_time$span <- ta_time$span / 3600
 
-# ta_time <- 
-#   ta_time %>% 
-#   filter(!is.na(span))
+# Remove missing data  
+ta_time <- ta_time %>% filter(!is.na(span))
 ```
 
-<br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
 <div align="center"> 
 
 ![](sp-logo.png){width=25%}
@@ -418,7 +388,7 @@ case_stats %>% bind_rows(group_stats) %>%
 
 <br>
 
-<div style = "page-break-before: always">
+<div style = "page-break-before: auto">
   <div style = "text-align: center"> 
 
 ## Turnaround Time > 48 hours by Pathologist 

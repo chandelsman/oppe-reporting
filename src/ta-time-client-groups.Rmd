@@ -142,7 +142,7 @@ ta_time <- ta_time_raw %>%
     type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
     client = gsub("WOODLAND", "PPRH", client),
-    Create = mdy_hm(Create),
+    Create = as_datetime(parse_date_time(Create, c("mdy HM", "mdy HMS"))),
     `original release` = mdy_hm(`original release`),
     grp = client_abbr(`Sequence Group`),
     cl_grp = client_group(`Sequence Group`)
