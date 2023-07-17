@@ -25,6 +25,7 @@ client_abbr <- function(`Sequence Group`) {
     `Sequence Group` == "NGYN OP (MHN)"     ~ "UCSOUTH",
     `Sequence Group` == "NGYN OP (SP)"      ~ "OP_SP",
     `Sequence Group` == "NGYN OP (SPWY)"    ~ "OP_SP",
+    `Sequence Group` == "NGYN (WMC Casper)" ~ "WMC Casper",
     `Sequence Group` == "SURG (BFCMC)"      ~ "BHS",
     `Sequence Group` == "SURG (CFG)"        ~ "CFG",
     `Sequence Group` == "SURG (CRMC)"       ~ "CRMC",
@@ -56,6 +57,7 @@ client_abbr <- function(`Sequence Group`) {
     `Sequence Group` == "SURG OP (MH)"      ~ "OP_MEM",
     `Sequence Group` == "SURG OP (SP)"      ~ "OP_SP",
     `Sequence Group` == "SURG OP (SPWY)"    ~ "OP_SP",
+    `Sequence Group` == "SURG (WMC Casper)" ~ "WMC Casper",
     TRUE                                    ~ "Validate_Client"
   )
 }
@@ -84,6 +86,7 @@ client_group <- function(`Sequence Group`) {
     `Sequence Group` == "NGYN (SRMC)"         ~ "Banner Health",
     `Sequence Group` == "NGYN (UCHGH)"        ~ "UCHealth North",
     `Sequence Group` == "NGYN (WOODLAND)"     ~ "UCHealth South",
+    `Sequence Group` == "NGYN (WMC Casper)"   ~ "Banner Health",
     `Sequence Group` == "NGYN (WY VA)"        ~ "Wyoming Veterans Administration",
     `Sequence Group` == "NGYN OP (MHN)"       ~ "Memorial Outpatient",
     `Sequence Group` == "NGYN OP (SP)"        ~ "Summit Pathology Outpatient",
@@ -115,6 +118,7 @@ client_group <- function(`Sequence Group`) {
     `Sequence Group` == "SURG (TORRINGTON)"   ~ "Banner Health",
     `Sequence Group` == "SURG (UCHGH)"        ~ "UCHealth North",
     `Sequence Group` == "SURG (WOODLAND)"     ~ "UCHealth South",
+    `Sequence Group` == "SURG (WMC Casper)"   ~ "Banner Health",
     `Sequence Group` == "SURG (WY VA)"        ~ "Wyoming Veterans Administration",
     `Sequence Group` == "SURG OP (MH)"        ~ "Memorial Outpatient",
     `Sequence Group` == "SURG OP (SP)"        ~ "Summit Pathology Outpatient",

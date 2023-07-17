@@ -67,7 +67,6 @@ library(here)
 library(lubridate)
 library(readxl)
 library(tidyverse)
-library(timeDate)
 ```
 
 ```{r load-functions, include = FALSE, message = FALSE, warning = FALSE}
@@ -84,7 +83,7 @@ ta_time_raw <-
     path = here("data"),
     pattern = "(\\d){4}\\D\\d\\.\\d-tat\\.xls",
     full.names = TRUE
-  ) %>% 
+  ) |> 
   sapply(read_excel, 
          simplify = FALSE,
          col_types =
@@ -102,7 +101,7 @@ ta_time_raw <-
              "guess",
              "guess"
            )
-  ) %>% 
+  ) |> 
   bind_rows()
 ```
 
@@ -114,21 +113,21 @@ ta_time_raw <-
 # define client groups
 # drop deleted cases
 
-ta_time <- ta_time_raw %>%
-  rename(`Sequence Group` = `SEQUENCE GROUP`) %>% 
+ta_time <- ta_time_raw |>
+  rename(`Sequence Group` = `SEQUENCE GROUP`) |> 
   mutate(
     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
     PATHOLOGIST = str_replace(PATHOLOGIST, "\\[x] ", ""),
-    type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
+    type = str_extract(`Sequence Group`, "()[^(]+") |> str_trim(),
     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
     client = gsub("WOODLAND", "PPRH", client),
     Create = as_datetime(parse_date_time(Create, c("mdy HM", "mdy HMS"))),
     `original release` = mdy_hm(`original release`),
     grp = client_abbr(`Sequence Group`),
     cl_grp = client_group(`Sequence Group`)
-  ) %>%
+  ) |>
   filter(!is.na(`original release`), 
          as_date(Create) >= params$dt_start & as_date(Create) <= params$dt_end,
          cl_grp == params$cl_grp,
@@ -165,7 +164,7 @@ ta_time$span <-
 ta_time$span <- ta_time$span / 3600
 
 # Remove missing data  
-ta_time <- ta_time %>% filter(!is.na(span))
+ta_time <- ta_time |> filter(!is.na(span))
 ```
 
 <br><br><br><br><br><br><br><br><br>
@@ -190,35 +189,35 @@ ta_time <- ta_time %>% filter(!is.na(span))
 
 ```{r tat_table_group, message = FALSE, warning = FALSE}
 
-ta_time %>%
+ta_time |>
   summarize(
     n = n(),
     Average = mean(span),
     `n > 48 hrs` = sum(span >= 48),
     `Percent > 48 hrs` = sum(span >= 48) / n()
-  ) %>%
-  gt(auto_align = TRUE) %>%
+  ) |>
+  gt(auto_align = TRUE) |>
   tab_header(title = "",
-              subtitle = "") %>%
+              subtitle = "") |>
   fmt_number(columns = c(n),
              decimals = 0,
-             use_seps = TRUE) %>%
+             use_seps = TRUE) |>
   fmt_number(columns = c(Average),
              decimals = 1,
-             use_seps = TRUE) %>%
+             use_seps = TRUE) |>
   fmt_percent(
     columns = c(`Percent > 48 hrs`),
     decimals = 1,
     use_seps = T
-  ) %>%
+  ) |>
   sub_missing(
     columns = everything(),
     missing_text = "---"
-  ) %>% 
+  ) |> 
   cols_label(
     Average = "Avg (hrs)"
-  ) %>% 
-  cols_align(align = "right") %>%
+  ) |> 
+  cols_align(align = "right") |>
   tab_options(table.width = pct(55),
               column_labels.font.weight = "bolder",
               heading.title.font.weight = "bolder",
@@ -226,47 +225,7 @@ ta_time %>%
   )
 ```
 
-
 <br><br>
-
-
-```{r tat_table_group_filtered, message = FALSE, warning = FALSE}
-
-# ta_time %>%
-#   filter(!(str_detect(CPTS, "88311 | 88341"))) %>%
-#   summarize(
-#     Cases = n(),
-#     Average = mean(span),
-#     `Under 48 hrs` = sum(span <= 48) / n()
-#   ) %>%
-#   gt(auto_align = TRUE) %>%
-#   tab_header(title = md("*CPT codes 88311 and 88341 **excluded***"),
-#               subtitle = "") %>%
-#   fmt_number(columns = c(Cases),
-#              decimals = 0,
-#              use_seps = TRUE) %>%
-#   fmt_number(columns = c(Average),
-#              decimals = 1,
-#              use_seps = TRUE) %>%
-#   fmt_percent(
-#     columns = c(`Under 48 hrs`),
-#     decimals = 1,
-#     use_seps = T
-#   ) %>%
-#   sub_missing(
-#     columns = everything(),
-#     missing_text = "---"
-#   ) %>% 
-#     cols_label(
-#     Average = "Avg Time (hrs)"
-#   ) %>% 
-#   cols_align(align = "right") %>%
-#   tab_options(table.width = pct(55),
-#               column_labels.font.weight = "bolder",
-#               heading.title.font.weight = "bolder",
-#               heading.title.font.size = pct(120)
-#   )
-```
 
 <div style = "page-break-before: auto">
   <div style = "text-align: center"> 
@@ -278,9 +237,9 @@ ta_time %>%
 
 ```{r tat_table_facility, message = FALSE, warning = FALSE}
 
-case_stats <-  ta_time %>%
-  # group_by(client, type) %>%
-  group_by(type) %>%
+case_stats <-  ta_time |>
+  # group_by(client, type) |>
+  group_by(type) |>
   summarize(
     Cases = n(),
     Average = mean(span),
@@ -288,8 +247,8 @@ case_stats <-  ta_time %>%
     `Percent > 48 hrs` = sum(span >= 48) / n()
   )
 
-group_stats <- ta_time %>%
-  # group_by(client) %>%
+group_stats <- ta_time |>
+  # group_by(client) |>
   summarize(
     type = "Summary",
     Cases = n(),
@@ -298,28 +257,28 @@ group_stats <- ta_time %>%
     `Percent > 48 hrs` = sum(span >= 48) / n()
   )
 
-case_stats %>% bind_rows(group_stats) %>%
-  gt(rowname_col = "type") %>%
+case_stats |> bind_rows(group_stats) |>
+  gt(rowname_col = "type") |>
   tab_header(title = "",
-             subtitle = "") %>%
+             subtitle = "") |>
   fmt_number(columns = c(Cases),
              decimals = 0,
-             use_seps = TRUE) %>%
+             use_seps = TRUE) |>
   fmt_number(columns = c(Average),
              decimals = 1,
-             use_seps = TRUE) %>%
+             use_seps = TRUE) |>
   fmt_percent(
     columns = c(`Percent > 48 hrs`),
     decimals = 1,
     use_seps = T
-  ) %>%
+  ) |>
   sub_missing(
     columns = everything(),
     missing_text = "---"
-  ) %>% 
+  ) |> 
   cols_label(Average = "Avg (hrs)",
-             Cases = "n") %>%
-  cols_align(align = "center") %>%
+             Cases = "n") |>
+  cols_align(align = "center") |>
   tab_options(
     summary_row.padding = px(2),
     row_group.font.weight = "bold",
@@ -331,60 +290,6 @@ case_stats %>% bind_rows(group_stats) %>%
 
 
 <br><br>
-
-
-```{r tat_table_facility_filtered, message = FALSE, warning = FALSE}
-
-# case_stats <-  ta_time %>%
-#   filter(!(str_detect(CPTS, "88311 | 88341"))) %>%
-#   group_by(client, type) %>%
-#   summarize(
-#     Cases = n(),
-#     Average = mean(span),
-#     `Under 48 hrs` = sum(span <= 48) / n()
-#   )
-# 
-# group_stats <- ta_time %>%
-#   filter(!(str_detect(CPTS, "88311 | 88341"))) %>%
-#   group_by(client) %>%
-#   summarize(
-#     type = "Summary",
-#     Cases = n(),
-#     Average = mean(span),
-#     `Under 48 hrs` = sum(span <= 48) / n()
-#   )
-# 
-# case_stats %>% bind_rows(group_stats) %>%
-#   gt(rowname_col = "type") %>%
-#   tab_header(title = md("*CPT codes 88311 and 88341 **excluded***"),
-#              subtitle = "") %>%
-#   fmt_number(columns = c(Cases),
-#              decimals = 0,
-#              use_seps = TRUE) %>%
-#   fmt_number(columns = c(Average),
-#              decimals = 1,
-#              use_seps = TRUE) %>%
-#   fmt_percent(
-#     columns = c(`Under 48 hrs`),
-#     decimals = 1,
-#     use_seps = T
-#   ) %>%
-#   sub_missing(
-#     columns = everything(),
-#     missing_text = "---"
-#   ) %>% 
-#   cols_label(Average = "Avg Time (hrs)",
-#              Cases = "n") %>%
-#   cols_align(align = "center") %>%
-#   tab_options(
-#     summary_row.padding = px(2),
-#     row_group.font.weight = "bold",
-#     row_group.padding = px(8),
-#     column_labels.font.weight = "bold",
-#     table.width = pct(75)
-#   )
-```
-
 
 <br>
 
@@ -398,35 +303,35 @@ case_stats %>% bind_rows(group_stats) %>%
 
 ```{r tat_table_pathologist, message = FALSE, warning = FALSE}
 
-ta_time %>%
-  group_by(PATHOLOGIST) %>%
+ta_time |>
+  group_by(PATHOLOGIST) |>
   summarize(
     Cases = n(),
     Average = mean(span),
     `n > 48 hrs` = sum(span >= 48),
     `Percent > 48 hrs` = sum(span >= 48) / n()
-  ) %>%
-  gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
+  ) |>
+  gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) |>
   tab_header(title = "",
-              subtitle = "") %>%
+              subtitle = "") |>
   fmt_number(columns = (Cases),
              decimals = 0,
-             use_seps = TRUE) %>%
+             use_seps = TRUE) |>
   fmt_number(columns = (Average),
              decimals = 1,
-             use_seps = TRUE) %>%
+             use_seps = TRUE) |>
   fmt_percent(
     columns = (`Percent > 48 hrs`),
     decimals = 1,
     use_seps = T
-  ) %>%
+  ) |>
   sub_missing(
     columns = everything(),
     missing_text = "---"
-  ) %>% 
+  ) |> 
   cols_label(Average = "Avg (hrs)",
-             Cases = "n") %>%
-  cols_align(align = "center") %>%
+             Cases = "n") |>
+  cols_align(align = "center") |>
   tab_options(
     summary_row.padding = px(2),
     row_group.font.weight = "bold",
@@ -447,15 +352,15 @@ ta_time %>%
 </div>
 
 ```{r cases_over_48hrs, message = FALSE, warning = FALSE}
-ta_time %>%
-  filter(span >= 48) %>%
-  select(`RESULT ID`, PATHOLOGIST) %>%
-  arrange(PATHOLOGIST, `RESULT ID`) %>% 
-  gt(auto_align = TRUE) %>%
+ta_time |>
+  filter(span >= 48) |>
+  select(`RESULT ID`, PATHOLOGIST) |>
+  arrange(PATHOLOGIST, `RESULT ID`) |> 
+  gt(auto_align = TRUE) |>
   tab_header(title = "",
-             subtitle = "") %>%
+             subtitle = "") |>
   cols_label(`RESULT ID` = "Result ID",
-             PATHOLOGIST = "Pathologist") %>%
+             PATHOLOGIST = "Pathologist") |>
   tab_options(
     # summary_row.padding = px(2),
     row_group.font.weight = "bold",
@@ -463,352 +368,4 @@ ta_time %>%
     column_labels.font.weight = "bold",
     table.width = pct(75)
   )
-```
-
-
-<!-- <div style = "page-break-before: always"> -->
-<!--   <div style = "text-align: center">  -->
-
-```{r tat_table_pathologist_filtered, message = FALSE, warning = FALSE}
-
-# ta_time %>%
-#   filter(!(str_detect(CPTS, "88311 | 88341"))) %>%
-#   group_by(PATHOLOGIST) %>%
-#   summarize(
-#     Cases = n(),
-#     Average = mean(span),
-#     `Under 48 hrs` = sum(span <= 48) / n()
-#   ) %>%
-#   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
-#   tab_header(title = md("*CPT codes 88311 and 88341 **excluded***"),
-#               subtitle = "") %>%
-#   fmt_number(columns = (Cases),
-#              decimals = 0,
-#              use_seps = TRUE) %>%
-#   fmt_number(columns = (Average),
-#              decimals = 1,
-#              use_seps = TRUE) %>%
-#   fmt_percent(
-#     columns = (`Under 48 hrs`),
-#     decimals = 1,
-#     use_seps = T
-#   ) %>%
-#   sub_missing(
-#     columns = everything(),
-#     missing_text = "---"
-#   ) %>% 
-#   cols_label(Average = "Avg Time (hrs)",
-#              Cases = "n") %>%
-#   cols_align(align = "center") %>%
-#   tab_options(
-#     summary_row.padding = px(2),
-#     row_group.font.weight = "bold",
-#     row_group.padding = px(8),
-#     column_labels.font.weight = "bold",
-#     table.width = pct(75)
-#   )
-```
-
-<div style = "page-break-before: always">
-  <div style = "text-align: center"> 
-
-<!-- ## Internal Consultations -->
-
-  </div>
-</div>
-
-```{r internal_consults_data, message = FALSE, warning = FALSE}
-
-# Clean internal consult data ---------------------------------------------
-# consult_int <- consult_int_raw %>%
-#   mutate(
-#     `Collected date` = mdy(`Collected date`),
-#     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
-#     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
-#     `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
-#     type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
-#     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
-#     grp = client_abbr(`Sequence Group`),
-#     cl_grp = client_group(`Sequence Group`)
-#   ) %>%
-#   filter(cl_grp == params$cl_grp, 
-#        as_date(`Collected date`) >= params$dt_start & 
-#          as_date(`Collected date`) <= params$dt_end, 
-#        Correlation != "Select" # exclude if pathologist left blank
-#   )
-```
-
-
-```{r internal_consults_table, message = FALSE, warning = FALSE}
-
-# combine internal consults with TA_time data and summarize for table
-# path_stats <- consult_int %>%
-#   distinct(`Result ID`, .keep_all = TRUE) %>%
-#   select(c(`Result ID`, Correlation)) %>%
-#   right_join(ta_time, by = c("Result ID" = "RESULT ID")) %>%
-#   mutate(
-#     PATHOLOGIST = str_replace(PATHOLOGIST, "\\[x] ", ""),
-#     corr_factor = str_extract(Correlation, "YES"),
-#     corr_logical = if_else(corr_factor == "YES", "YES", "NO", "NO")
-#   ) %>%
-#   group_by(cl_grp, PATHOLOGIST) %>%
-#   summarize(
-#     reviewed = sum(corr_logical == "YES"),
-#     caseload = n(),
-#     percent_reviewed = reviewed / caseload
-#   ) %>%
-#   ungroup()
-# 
-# team_stats <- consult_int %>%
-#   distinct(`Result ID`, .keep_all = TRUE) %>%
-#   select(c(`Result ID`, Correlation)) %>%
-#   right_join(ta_time, by = c("Result ID" = "RESULT ID")) %>%
-#   mutate(
-#     PATHOLOGIST = str_replace(PATHOLOGIST, "\\[x] ", ""),
-#     corr_factor = str_extract(Correlation, "YES"),
-#     corr_logical = if_else(corr_factor == "YES", "YES", "NO", "NO")
-#   ) %>%
-#   group_by(cl_grp) %>%
-#   summarize(
-#     PATHOLOGIST = "Summary",
-#     reviewed = sum(corr_logical == "YES"),
-#     caseload = n(),
-#     percent_reviewed = reviewed / caseload
-#   ) %>%
-#   ungroup()
-# 
-# # make internal consultation table
-# path_stats %>% bind_rows(team_stats) %>%
-#   select(-c(cl_grp, caseload)) %>%
-#   gt(rowname_col = "PATHOLOGIST", auto_align = TRUE) %>%
-#   tab_header(title = "",
-#              subtitle = "") %>%
-#   fmt_number(columns = c(reviewed),
-#              decimals = 0,
-#              use_seps = TRUE) %>%
-#   fmt_percent(
-#     columns = c(percent_reviewed),
-#     decimals = 2,
-#     use_seps = TRUE
-#   ) %>%
-#   cols_label(reviewed = "Correlation (Yes)",
-#              percent_reviewed = "% Reviewed") %>%
-#   sub_missing(columns = everything(),
-#               missing_text = "---") %>%
-#   cols_align(align = "center") %>%
-#   tab_options(
-#     summary_row.padding = px(2),
-#     row_group.font.weight = "bold",
-#     row_group.padding = px(8),
-#     column_labels.font.weight = "bold",
-#     table.width = pct(75)
-#   )
-```
-
-<!-- <div style = "page-break-before: always"> -->
-<!--   <div style = "text-align: center">  -->
-
-<!-- ## External Consultations  -->
-
-<!--   </div> -->
-<!-- </div> -->
-
-
-```{r external_consults_data, message = FALSE, warning = FALSE}
-
-# Clean external consult data ---------------------------------------------
-# consult_ext <- consult_ext_raw %>%
-#   mutate(
-#     `Collected date` = mdy(`Collected date`),
-#     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
-#     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
-#     `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
-#     type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
-#     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
-#     grp = client_abbr(`Sequence Group`), 
-#     cl_grp = client_group(`Sequence Group`)
-#   ) %>% 
-#   filter(cl_grp == params$cl_grp, 
-#        as_date(`Collected date`) >= params$dt_start & 
-#          as_date(`Collected date`) <= params$dt_end, 
-#        Correlation != "Select" # exclude if pathologist left blank
-#   )
-```
-
-
-```{r external_consults_table, message = FALSE, warning = FALSE}
-
-# pathologist summary
-# path_ext <- 
-#   consult_ext %>%
-#   filter(!is.na(Correlation)) %>%
-#   group_by(`Primary Pathologist`) %>%
-#   summarize(
-#     No = sum(Correlation == "NO"),
-#     NwC = sum(Correlation == "NO with Comments"),
-#     Yes = sum(Correlation == "YES"),
-#     YwC = sum(Correlation == "YES with Comments")
-#   )
-
-# team summary
-# team_ext <- 
-#   consult_ext %>%
-#   filter(!is.na(Correlation)) %>% 
-#   summarize(
-#     `Primary Pathologist` = "Summary",
-#     No = sum(Correlation == "NO"),
-#     NwC = sum(Correlation == "NO with Comments"),
-#     Yes = sum(Correlation == "YES"),
-#     YwC = sum(Correlation == "YES with Comments")
-#   )
-
-# combine pathologist and team summaries and build table
-# path_ext %>% bind_rows(team_ext) %>% 
-#   gt(rowname_col = "Primary Pathologist", auto_align = TRUE) %>%
-#   tab_header(title = "",
-#              subtitle = "") %>%
-#   sub_missing(columns = everything(),
-#               missing_text = "---") %>%
-#   cols_align(align = "center") %>%
-#   tab_options(
-#     summary_row.padding = px(2),
-#     row_group.font.weight = "bold",
-#     row_group.padding = px(8),
-#     column_labels.font.weight = "bold",
-#     table.width = pct(75)
-#   )
-```
-
-<!-- <div style = "page-break-before: always"> -->
-<!--   <div style = "text-align: center"> -->
-
-<!-- ## Intraoperative Consultations  -->
-
-<!--   </div> -->
-<!-- </div> -->
-
-
-```{r intraoperative_consults_data, message = FALSE, warning = FALSE}
-
-# Clean intraoperative consult data ---------------------------------------
-
-# make columns for case type: ngyn, surg, ngyn outpatient, surg outpatient
-# reformat dates to POSIXct 
-# define client groups
-# drop deleted cases
-
-# consult_iop <- consult_iop_raw %>%
-#   mutate(
-#     `Collected date` = mdy(`Collected date`),
-#     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
-#     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
-#     `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
-#     type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
-#     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
-#     grp = client_abbr(`Sequence Group`),
-#     cl_grp = client_group(`Sequence Group`)
-#   ) %>% 
-#   filter(cl_grp == params$cl_grp, 
-#        as_date(`Collected date`) >= params$dt_start & 
-#          as_date(`Collected date`) <= params$dt_end, 
-#        Correlation != "Select" # exclude if pathologist left blank
-#   )
-```
-
-
-```{r intraoperative_consults_table, message = FALSE, warning = FALSE}
-
-# summarize intraop consults by type
-# type_iop <- 
-#   consult_iop %>%
-#   filter(!is.na(Correlation)) %>%
-#   group_by(`IntraOp Type`) %>%
-#   summarize(
-#     No = sum(Correlation == "NO"),
-#     NwC = sum(Correlation == "NO with Comments"),
-#     Yes = sum(Correlation == "YES"),
-#     YwC = sum(Correlation == "YES with Comments")
-#   )
-
-# calculate totals for all intraop consults  
-# sum_iop <- 
-#   consult_iop %>%
-#   filter(!is.na(Correlation)) %>%
-#   summarize(
-#     `IntraOp Type` = "Summary",
-#     No = sum(Correlation == "NO"),
-#     NwC = sum(Correlation == "NO with Comments"),
-#     Yes = sum(Correlation == "YES"),
-#     YwC = sum(Correlation == "YES with Comments")
-#   )
-
-# combine data and build table
-# type_iop %>% bind_rows(sum_iop) %>% 
-#   gt(rowname_col = "IntraOp Type") %>%
-#   tab_header(title = "",
-#               subtitle = "") %>%
-#   sub_missing(columns = everything(),
-#               missing_text = "---") %>%
-#   cols_align(align = "center") %>%
-#   tab_options(
-#     summary_row.padding = px(2),
-#     row_group.font.weight = "bold",
-#     row_group.padding = px(8),
-#     column_labels.font.weight = "bold",
-#     table.width = pct(75)
-#   )
-```
-
-
-<!-- <br> -->
-
-<!-- <div style = "page-break-before: auto"> -->
-<!--   <div style = "text-align: center">  -->
-
-<!-- ## Intraoperative Consultations by Pathologist  -->
-
-<!--   </div> -->
-<!-- </div> -->
-
-
-```{r intraop_consults_table_pathologist, message = FALSE, warning = FALSE}
-# summarize intraop conslults by pathologist and type
-# path_iop <- 
-#   consult_iop %>%
-#   filter(!is.na(Correlation)) %>%
-#   group_by(`IntraOp Path`, `IntraOp Type`) %>%
-#   summarize(
-#     No = sum(Correlation == "NO"),
-#     NwC = sum(Correlation == "NO with Comments"),
-#     Yes = sum(Correlation == "YES"),
-#     YwC = sum(Correlation == "YES with Comments")
-#   )
-
-# calculate intraop consult summaries by pathologist
-# path_sum_iop <- 
-#   consult_iop %>%
-#   filter(!is.na(Correlation)) %>%
-#   group_by(`IntraOp Path`) %>%
-#   summarize(
-#     `IntraOp Type` = "Summary",
-#     No = sum(Correlation == "NO"),
-#     NwC = sum(Correlation == "NO with Comments"),
-#     Yes = sum(Correlation == "YES"),
-#     YwC = sum(Correlation == "YES with Comments")
-#   )
-# 
-# path_iop %>% bind_rows(path_sum_iop) %>% 
-#   gt(rowname_col = "IntraOp Type", auto_align = TRUE) %>%
-#   tab_header(title = "",
-#               subtitle = "") %>%
-#   sub_missing(columns = everything(),
-#               missing_text = "---") %>%
-#   cols_align(align = "center") %>%
-#   tab_options(
-#     summary_row.padding = px(2),
-#     row_group.font.weight = "bold",
-#     row_group.padding = px(8),
-#     column_labels.font.weight = "bold",
-#     table.width = pct(75)
-#   )
 ```

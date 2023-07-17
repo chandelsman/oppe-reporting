@@ -51,27 +51,27 @@ consult_int <-
   list.files(path = here("data"),
              pattern = "(\\d){4}\\D\\d-int\\.xls",
              full.names = TRUE 
-  ) %>% 
-  sapply(read_excel, simplify = FALSE) %>% 
-  bind_rows() %>% 
+  ) |> 
+  sapply(read_excel, simplify = FALSE) |> 
+  bind_rows() |> 
   mutate(
     `Collected date` = mdy(`Collected date`),
     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
-    type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
+    type = str_extract(`Sequence Group`, "()[^(]+") |> str_trim(),
     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
     grp = client_abbr(`Sequence Group`),
     cl_grp = client_group(`Sequence Group`),
     `Consulting Pathologist` = str_extract(`Consulting Pathologist`, ".+?(?=,)")
-  ) %>% 
+  ) |> 
   select(`Collected date`, 
          `Result ID`, 
          `Primary Pathologist`,
          `Consulting Pathologist`,
          cl_grp,
          Correlation
-  ) %>% 
+  ) |> 
   rename(Client = cl_grp)
 
 # external consultation data ----------------------------------------------
@@ -79,25 +79,25 @@ consult_ext <-
   list.files(path = here("data"),
              pattern = "(\\d){4}\\D\\d-ext\\.xls",
              full.names = TRUE 
-  ) %>% 
-  sapply(read_excel, simplify = FALSE) %>% 
-  bind_rows() %>% 
+  ) |> 
+  sapply(read_excel, simplify = FALSE) |> 
+  bind_rows() |> 
   mutate(
     `Collected date` = mdy(`Collected date`),
     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
-    type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
+    type = str_extract(`Sequence Group`, "()[^(]+") |> str_trim(),
     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
     grp = client_abbr(`Sequence Group`),
     cl_grp = client_group(`Sequence Group`)
-  ) %>% 
+  ) |> 
   select(`Collected date`, 
          `Result ID`, 
          `Primary Pathologist`, 
          cl_grp,
          Correlation
-  ) %>% 
+  ) |> 
   rename(Client = cl_grp)
 
 # intraoperative consultation data ----------------------------------------
@@ -105,45 +105,45 @@ consult_iop <-
   list.files(path = here("data"),
              pattern = "(\\d){4}\\D\\d-iop\\.xls",
              full.names = TRUE 
-  ) %>% 
-  sapply(read_excel, simplify = FALSE) %>% 
-  bind_rows() %>% 
+  ) |> 
+  sapply(read_excel, simplify = FALSE) |> 
+  bind_rows() |> 
   mutate(
     `Collected date` = mdy(`Collected date`),
     `Sequence Group` = str_replace(`Sequence Group`, "\\*SURG", "SURG"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP SURG", "SURG OP"),
     `Sequence Group` = str_replace(`Sequence Group`, "OP NGYN", "NGYN OP"),
-    type = str_extract(`Sequence Group`, "()[^(]+") %>% str_trim(),
+    type = str_extract(`Sequence Group`, "()[^(]+") |> str_trim(),
     client = str_extract(`Sequence Group`, "(?<=\\().*?(?=\\))"),
     grp = client_abbr(`Sequence Group`),
     cl_grp = client_group(`Sequence Group`)
-  ) %>% 
+  ) |> 
   select(`Collected date`, 
          `Result ID`, 
          `IntraOp Path`, 
          cl_grp,
          Correlation
-  ) %>% 
+  ) |> 
   rename(Client = cl_grp, `Primary Pathologist` = `IntraOp Path`)
 
 ```
 
 ```{r consults-to-review, include=FALSE}
 consult_review <- 
-  consult_ext %>% 
-  bind_rows(consult_int) %>% 
-  bind_rows(consult_iop) %>% 
+  consult_ext |> 
+  bind_rows(consult_int) |> 
+  bind_rows(consult_iop) |> 
   filter(as_date(`Collected date`) >= params$dt_start & 
            as_date(`Collected date`) <= params$dt_end, 
          Correlation != "YES" & 
            Correlation != "Select" & 
            Correlation != "NA",
-         Client != "Summit Pathology Outpatient") %>% 
+         Client != "Summit Pathology Outpatient") |> 
   arrange(Client, `Primary Pathologist`)
 ```
 
 ```{r review-table, warning=FALSE}
-consult_review %>% 
+consult_review |> 
   gt(rowname_col = "Primary Pathologist", groupname_col = "Client")
 ```
 

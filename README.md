@@ -22,7 +22,7 @@ Independent datasets are combined to summarize turnaround time, internal consult
 
 Query is performed in LigoLab 
 
-- Reporting > Dynamic Reports > Path-Dash
+- Reporting > Dynamic Reports > Stats Pathologist TAT
 - needs to be run for each month of the quarter independently or LigoLab will crash
     - LigoLab may freeze and need to be force quit
 
@@ -41,7 +41,7 @@ Query is performed in LigoLab
 
 Query is performed in LigoLab
 
-- Reporting > Dynamic Reports > Consultation Information
+- Reporting > Dynamic Reports > Stats Consultations
 
 **Base Tab**
 
@@ -58,7 +58,7 @@ Query is performed in LigoLab
 
 Query is performed in LigoLab
 
-- Reporting > Dynamic Reports > Consultation Information
+- Reporting > Dynamic Reports > Stats Consultations
 
 **Base Tab**
 
@@ -75,7 +75,7 @@ Query is performed in LigoLab
 
 Query is performed in LigoLab
 
-- Reporting > Dynamic Reports > Intraop
+- Reporting > Dynamic Reports > Stats Intraop
 
 **Base Tab**
 
