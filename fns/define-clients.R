@@ -121,8 +121,8 @@ client_group <- function(`Sequence Group`) {
     `Sequence Group` == "SURG (WMC Casper)"   ~ "Banner Health",
     `Sequence Group` == "SURG (WY VA)"        ~ "Wyoming Veterans Administration",
     `Sequence Group` == "SURG OP (MH)"        ~ "Memorial Outpatient",
-    `Sequence Group` == "SURG OP (SP)"        ~ "Summit Pathology Outpatient",
-    `Sequence Group` == "SURG OP (SPWY)"      ~ "Summit Pathology Outpatient",
+    `Sequence Group` == "SURG OP (SP)"        ~ "Summit Pathology Outreach",
+    `Sequence Group` == "SURG OP (SPWY)"      ~ "Summit Pathology Outreach",
     TRUE                                      ~ "Validate_Client"
   )
 }

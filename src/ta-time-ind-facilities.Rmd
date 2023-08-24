@@ -18,7 +18,7 @@ params:
     - Memorial Hospital Central
     - Memorial Hospital North
     - Pikes Peak Regional Hospital
-    # - St Elizabeth Hospital
+    - Summit Pathology Outreach
     - Wyoming Veterans Administration
     input: select
     label: Client Group
