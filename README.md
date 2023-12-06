@@ -4,8 +4,6 @@ Ongoing Professional Practice Evaluation stats are produced quarterly as
 part of compliance reporting. Stats for turnaround time and consultations 
 are produced for most hospital networks.
 
-# OPPE Reports
-
 ## Overview
 
 Quarterly Ongoing Professional Practice Evaluation Reports provided to clients. Report data are obtained from three dynamic reports in LigoLab (PATHDASH, Intraop, Consultation information). The final OPPE Reports are generated from an Rmarkdown script that compiles and summarizes data by client. PDF versions of the Reports are saved in client specific folders in SharePoint (Compliance > Pathologist Quality Data Reports).
