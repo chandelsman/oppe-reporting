@@ -5,24 +5,24 @@ output:
   # pdf_document: default
   html_document: default
 params:
-  cl_grp:
-    # - Sheridan
-    # - UCHealth North
-    choices:
-    - Centers for Gastroenterology
-    - Estes Park Health Hospital
-    - Grandview Hospital
-    - Ivinson Memorial Hospital
-    - Melissa Memorial Hospital
-    - Memorial Hospital of Carbon County
-    - Memorial Hospital Central
-    - Memorial Hospital North
-    - Pikes Peak Regional Hospital
-    - Summit Pathology Outreach
-    - Wyoming Veterans Administration
-    input: select
-    label: Client Group
-    value: Ivinson Memorial Hospital
+  # cl_grp:
+  #   # - Sheridan
+  #   # - UCHealth North
+  #   choices:
+  #   - Centers for Gastroenterology
+  #   - Estes Park Health Hospital
+  #   - Grandview Hospital
+  #   - Ivinson Memorial Hospital
+  #   - Melissa Memorial Hospital
+  #   - Memorial Hospital of Carbon County
+  #   - Memorial Hospital Central
+  #   - Memorial Hospital North
+  #   - Pikes Peak Regional Hospital
+  #   - Summit Pathology Outreach
+  #   - Wyoming Veterans Administration
+  #   input: select
+  #   label: Client Group
+  #   value: Ivinson Memorial Hospital
   dt_start:
     label: Start Date
     input: date
@@ -70,7 +70,7 @@ source(here("fns", "define-clients.R"))
 ta_time_raw <-
   list.files(
     path = here("data"),
-    pattern = "(\\d){4}-(\\d){2}_tat.*\\.xls",
+    pattern = "(\\d){4}-q(\\d){1}_tat.*\\.xls",
     full.names = TRUE
   ) |>
   sapply(
@@ -126,7 +126,7 @@ ta_time <-
     as_date(Create) >= params$dt_start &
       as_date(Create) <= params$dt_end,
     !is.na(PATHOLOGIST),
-    cl_grp == params$cl_grp
+    # cl_grp == params$cl_grp
   ) # drop deleted records
 ```
 
@@ -215,7 +215,7 @@ ta_time |>
     Average = "Avg Time (hrs)"
   ) |> 
   cols_align(align = "right") |> 
-  tab_options(table.width = pct(55),
+  tab_options(table.width = pct(65),
               column_labels.font.weight = "bolder",
               heading.title.font.weight = "bolder",
               heading.title.font.size = pct(120)
@@ -260,7 +260,7 @@ ta_time |>
     decalcification or IHC stains were performed*"),
     locations = cells_title()
   ) |> 
-  tab_options(table.width = pct(55),
+  tab_options(table.width = pct(65),
               column_labels.font.weight = "bolder",
               heading.title.font.weight = "bolder",
               heading.title.font.size = pct(120)
