@@ -54,7 +54,6 @@ knitr::opts_chunk$set(echo = FALSE)
 library(difftimeOffice)
 library(gt)
 library(here)
-library(lubridate)
 library(readxl)
 library(tidyverse)
 ```
@@ -68,30 +67,31 @@ source(here("fns", "define-clients.R"))
 ```{r load_data, message = FALSE, warning = FALSE}
 ### Import raw data -----
 # Turnaround time data ---------------------------------------------------
-ta_time_raw <- 
+ta_time_raw <-
   list.files(
     path = here("data"),
     pattern = "(\\d){4}-(\\d){2}_tat.*\\.xls",
     full.names = TRUE
-  ) |> 
-  sapply(read_excel, 
-         simplify = FALSE,
-         col_types =
-           c(
-             "guess",
-             "guess",
-             "guess",
-             "numeric",
-             "text",
-             "guess",
-             "guess",
-             "guess",
-             "guess",
-             "guess",
-             "guess",
-             "guess"
-           )
-  ) |> 
+  ) |>
+  sapply(
+    read_excel,
+    simplify = FALSE,
+    col_types =
+      c(
+        "guess",
+        "guess",
+        "guess",
+        "numeric",
+        "text",
+        "guess",
+        "guess",
+        "guess",
+        "guess",
+        "guess",
+        "guess",
+        "guess"
+      )
+  ) |>
   bind_rows()
 ```
 
